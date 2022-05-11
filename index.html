@@ -1,0 +1,128 @@
+<meta charset="utf-8">
+<style>
+html {
+  background-color: #458;
+  font-family: sans-serif;
+  zoom: 1.5;
+  font-size: 120%;
+}
+input[type=range] {
+  font-size: 100%;
+  width: 200px;
+}
+#szint, #valasz {
+  font-size: 200%;
+}
+#valasz {
+  padding: 5px 10px;
+  width: 20vw;
+}
+button {
+  font-size: 100%;
+  padding: 10px 30px;
+  border-radius: 10px;
+}
+body {
+  margin: 30px auto;
+  width: 25vw;
+  padding: 50px;
+  border-radius: 50px;
+  background-color: white;
+  box-shadow: 0 10px 10px #0004;
+}
+</style>
+
+<p><span id="szint"></span>. szint
+<p>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any">
+<select id="nyelv"></select>
+<p><button onclick="start()">Start</button>
+<p><input type="number" id="valasz">
+
+
+<script>
+speechSynthesis.onvoiceschanged = function() {};
+const LANGUAGES = {
+  'Magyar': {
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
+    numbers: ['egy', 'kettő', 'három', 'négy', 'öt', 'hat', 'hét', 'nyolc', 'kilenc'],
+    yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
+    no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
+  },
+  'Angol': {
+    lang: 'en', prompt: 'What is', plus: 'plus',
+    numbers: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
+    yes: ['Yes.', 'Correct.', 'Yup.', 'Indeed.', 'Right.'],
+    no: ['No.', 'No.', 'No.', 'No.', 'Nope.', 'Sorry.'],
+  },
+  'Űrlény': {
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
+    numbers: ['ong', 'bong', 'ké', 'melo', 'gik', 'lekka', 'larp', 'donk', 'bedong'],
+    yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
+    no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
+  },
+}
+for (const l in LANGUAGES) {
+  nyelv.innerHTML += `<option value="${l}">${l}</option>`;
+}
+let level = 2;
+let answer = '';
+szint.textContent = level;
+function newTask(level) {
+  let sum = 0;
+  const nums = [];
+  for (let i = 0; i < level; ++i) {
+    const n = (Math.random() * 9)|0 + 1;
+    nums.push(n);
+    sum += n;
+  }
+  const l = LANGUAGES[nyelv.value];
+  const text = l.prompt + ' ' + nums.map(n => l.numbers[n-1]).join(' ' + l.plus + ' ') + '?';
+  return {text, sum};
+}
+let task;
+function start() {
+  task = newTask(level);
+  console.log(task.text);
+  answer = '';
+  valasz.value = '';
+  valasz.style.backgroundColor = null;
+  valasz.focus();
+  say(task.text);
+}
+function say(text) {
+  const u = new SpeechSynthesisUtterance(text);
+  //u.voice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith(LANGUAGES[nyelv.value].lang));
+  u.lang = LANGUAGES[nyelv.value].lang;
+  u.rate = parseFloat(sebesseg.value);
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+function sayRandom(options) {
+  say(options[(Math.random() * options.length)|0]);
+}
+valasz.onkeypress = function(e) {
+  e.preventDefault();
+  if (e.key === 'Enter') {
+    start();
+  }
+  if (valasz.style.backgroundColor) return;
+  if (e.key >= '0' && e.key <= '9') {
+    answer = answer + e.key;
+    const correct = task.sum.toString();
+    if (answer === correct) {
+      valasz.style.backgroundColor = '#6f4';
+      level += 1;
+      szint.textContent = level;
+      sayRandom(LANGUAGES[nyelv.value].yes);
+    } else if (!correct.startsWith(answer)) {
+      valasz.style.backgroundColor = '#f64';
+      if (level > 2) {
+        level -= 1;
+        szint.textContent = level;
+      }
+      sayRandom(LANGUAGES[nyelv.value].no);
+    }
+    valasz.value = answer;
+  }
+}
+</script>
