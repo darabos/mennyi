@@ -76,6 +76,12 @@ const LANGUAGES = {
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
   },
+  'Csibe': {
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
+    numbers: ['csip', 'csipcsip', 'csipcsipcsip', 'csipcsipcsipcsip', 'csirip', 'csipcsirip', 'csipcsipcsirip', 'csipcsipcsipcsirip', 'csipcsipcsipcsipcsirip'],
+    yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van, kukurikú.'],
+    no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Csip, nem.'],
+  },
 }
 for (const l in LANGUAGES) {
   nyelv.innerHTML += `<option value="${l}">${l}</option>`;
