@@ -93,7 +93,7 @@ function newTask(level) {
   let sum = 0;
   const nums = [];
   for (let i = 0; i < level; ++i) {
-    const n = (Math.random() * 9)|0 + 1;
+    const n = Math.floor(Math.random() * 9) + 1;
     nums.push(n);
     sum += n;
   }
