@@ -82,6 +82,12 @@ const LANGUAGES = {
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van, kukurikú.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Csip, nem.'],
   },
+  'Japán': {
+    lang: 'ja', prompt: '', plus: 'プラス', ending: 'とは何ですか？',
+    numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    yes: ['はい。', 'はい。', 'はい。', 'はい。', 'はい、確かに。'],
+    no: ['いいえ。', 'いいえ。', 'いいえ。', 'いいえ。', 'とんでもない。'],
+  },
 }
 for (const l in LANGUAGES) {
   nyelv.innerHTML += `<option value="${l}">${l}</option>`;
@@ -98,7 +104,7 @@ function newTask(level) {
     sum += n;
   }
   const l = LANGUAGES[nyelv.value];
-  const text = l.prompt + ' ' + nums.map(n => l.numbers[n-1]).join(' ' + l.plus + ' ') + '?';
+  const text = l.prompt + ' ' + nums.map(n => l.numbers[n-1]).join(' ' + l.plus + ' ') + (l.ending || '?');
   return {text, sum};
 }
 let task;
@@ -113,7 +119,6 @@ function start() {
 }
 function say(text) {
   const u = new SpeechSynthesisUtterance(text);
-  //u.voice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith(LANGUAGES[nyelv.value].lang));
   u.lang = LANGUAGES[nyelv.value].lang;
   u.rate = parseFloat(sebesseg.value);
   window.speechSynthesis.cancel();
