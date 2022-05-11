@@ -17,6 +17,12 @@ input[type=range] {
   padding: 5px 10px;
   width: 20vw;
 }
+#hangszoro {
+  font-size: 200%;
+  float: right;
+  display: none;
+  animation: pulse 1s infinite ease;
+}
 button {
   font-size: 100%;
   padding: 10px 30px;
@@ -30,6 +36,14 @@ body {
   background-color: white;
   box-shadow: 0 10px 10px #0004;
 }
+@keyframes pulse {
+  0% { transform: scale(1.1) }
+  15% { transform: scale(1.15) }
+  35% { transform: scale(1.1)}
+  70% { transform: scale(1.15) }
+  90% { transform: scale(1.1) }
+  100% { transform: scale(1.1) }
+}
 </style>
 
 <p><a href="https://github.com/darabos/mennyi">
@@ -37,7 +51,7 @@ body {
 <p><span id="szint"></span>. szint
 <p>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any">
 <select id="nyelv"></select>
-<p><button onclick="start()">Start</button>
+<p><button onclick="start()">Start ⏎</button><span id="hangszoro">🔊</span>
 <p><input type="number" id="valasz">
 
 
@@ -97,6 +111,8 @@ function say(text) {
   u.lang = LANGUAGES[nyelv.value].lang;
   u.rate = parseFloat(sebesseg.value);
   window.speechSynthesis.cancel();
+  hangszoro.style.display = 'block';
+  u.onend = function() { hangszoro.style.display = 'none'; };
   window.speechSynthesis.speak(u);
 }
 function sayRandom(options) {
