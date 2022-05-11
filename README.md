@@ -1,2 +1,2 @@
 # Mennyi
-A game of arithmetic for my kids. Try it at http://mennyi.darabos.space/.
+A game of arithmetic for my kids. Try it at https://mennyi.darabos.space/.
