@@ -88,6 +88,12 @@ const LANGUAGES = {
     yes: ['はい。', 'はい。', 'はい。', 'はい。', 'はい、確かに。'],
     no: ['いいえ。', 'いいえ。', 'いいえ。', 'いいえ。', 'とんでもない。'],
   },
+  'Hónapok': {
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
+    numbers: 'január február március április május június július augusztus szeptember október november december'.split(' '),
+    yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.', 'Tökéletes.'],
+    no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.', 'Tökéletesen rossz.'],
+  },
 }
 for (const l in LANGUAGES) {
   nyelv.innerHTML += `<option value="${l}">${l}</option>`;
