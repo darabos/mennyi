@@ -51,6 +51,7 @@ body {
 <p><span id="szint"></span>. szint
 <p>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any">
 <select id="nyelv"></select>
+<label><input type="checkbox" id="szorzas" />Szorzás</label>
 <p><button onclick="start()">Start ⏎</button><span id="hangszoro">🔊</span>
 <p><input type="number" id="valasz">
 
@@ -59,37 +60,37 @@ body {
 speechSynthesis.onvoiceschanged = function() {};
 const LANGUAGES = {
   'Magyar': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xeöoeöoeoe'[n] + 'r',
     numbers: ['egy', 'kettő', 'három', 'négy', 'öt', 'hat', 'hét', 'nyolc', 'kilenc'],
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
   },
   'Angol': {
-    lang: 'en', prompt: 'What is', plus: 'plus',
+    lang: 'en', prompt: 'What is', plus: 'plus', times: 'times',
     numbers: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
-    yes: ['Yes.', 'Correct.', 'Yup.', 'Indeed.', 'Right.'],
+    yes: ['Yes.', 'Correct.', 'Yeah.', 'Indeed.', 'Right.'],
     no: ['No.', 'No.', 'No.', 'No.', 'Nope.', 'Sorry.'],
   },
   'Űrlény': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xooeoeoooo'[n] + 'r',
     numbers: ['ong', 'bong', 'ké', 'melo', 'gik', 'lekka', 'larp', 'donk', 'bedong'],
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
   },
   'Csibe': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: 'szer',
     numbers: ['csip', 'csipcsip', 'csipcsipcsip', 'csipcsipcsipcsip', 'csirip', 'csipcsirip', 'csipcsipcsirip', 'csipcsipcsipcsirip', 'csipcsipcsipcsipcsirip'],
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van, kukurikú.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Csip, nem.'],
   },
   'Japán': {
-    lang: 'ja', prompt: '', plus: 'プラス', ending: 'とは何ですか？',
+    lang: 'ja', prompt: '', plus: 'たす', times: 'かける', ending: 'とは何ですか？',
     numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
     yes: ['はい。', 'はい。', 'はい。', 'はい。', 'はい、確かに。'],
     no: ['いいえ。', 'いいえ。', 'いいえ。', 'いいえ。', 'とんでもない。'],
   },
   'Hónapok': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xooooooooeeee'[n] + 'r',
     numbers: 'január február március április május június július augusztus szeptember október november december'.split(' '),
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.', 'Tökéletes.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.', 'Tökéletesen rossz.'],
@@ -102,16 +103,30 @@ let level = 2;
 let answer = '';
 szint.textContent = level;
 function newTask(level) {
-  let sum = 0;
-  const nums = [];
-  for (let i = 0; i < level; ++i) {
-    const n = Math.floor(Math.random() * 9) + 1;
-    nums.push(n);
-    sum += n;
-  }
   const l = LANGUAGES[nyelv.value];
-  const text = l.prompt + ' ' + nums.map(n => l.numbers[n-1]).join(' ' + l.plus + ' ') + (l.ending || '?');
-  return {text, sum};
+  let answer, last, mult;
+  const words = [];
+  for (let i = 0; i < level; ++i) {
+    const n = Math.floor(Math.random() * l.numbers.length) + 1;
+    if (!answer) {
+      words.push(l.numbers[n-1]);
+      answer = n;
+      mult = n;
+    } else if (szorzas.value && Math.random() < 0.5) {
+      words.push(l.plus);
+      words.push(l.numbers[n-1]);
+      answer += n;
+      mult = n;
+    } else {
+      words.push(typeof l.times === 'string' ? l.times : l.times(last));
+      words.push(l.numbers[n-1]);
+      answer += mult * (n - 1);
+      mult *= n;
+    }
+    last = n;
+  }
+  const text = l.prompt + ' ' + words.join(' ') + (l.ending || '?');
+  return {text, answer};
 }
 let task;
 function start() {
@@ -143,7 +158,7 @@ valasz.onkeypress = function(e) {
   if (valasz.style.backgroundColor) return;
   if (e.key >= '0' && e.key <= '9') {
     answer = answer + e.key;
-    const correct = task.sum.toString();
+    const correct = task.answer.toString();
     if (answer === correct) {
       valasz.style.backgroundColor = '#6f4';
       level += 1;
