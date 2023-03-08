@@ -113,15 +113,15 @@ function newTask(level) {
       answer = n;
       mult = n;
     } else if (szorzas.checked && Math.random() < 0.5) {
-      words.push(l.plus);
-      words.push(l.numbers[n-1]);
-      answer += n;
-      mult = n;
-    } else {
       words.push(typeof l.times === 'string' ? l.times : l.times(last));
       words.push(l.numbers[n-1]);
       answer += mult * (n - 1);
       mult *= n;
+    } else {
+      words.push(l.plus);
+      words.push(l.numbers[n-1]);
+      answer += n;
+      mult = n;
     }
     last = n;
   }
