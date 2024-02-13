@@ -92,7 +92,7 @@ label {
 speechSynthesis.onvoiceschanged = function() {};
 const LANGUAGES = {
   'Magyar': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xeöoeöoeoe'[n%10] + 'r',
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xeöoeöoeoe'[n%10].replace('x', 'xeooeeoeoe'[Math.floor(n/10)]) + 'r',
     numbers: ['egy', 'kettő', 'három', 'négy', 'öt', 'hat', 'hét', 'nyolc', 'kilenc'],
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
