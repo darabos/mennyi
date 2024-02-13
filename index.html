@@ -44,14 +44,41 @@ body {
   90% { transform: scale(1.1) }
   100% { transform: scale(1.1) }
 }
+label {
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0 5px 0 0;
+  margin: 3px;
+}
+#timer {
+  display: none;
+  background: #f41;
+  height: 10px;
+  margin: -10px 0;
+}
+.timer-animation {
+  animation: timer 10s linear;
+}
+@keyframes timer {
+  0% { width: 0%; background: #4a1; }
+  90% { background: #4a1; }
+  95% { background: #991; }
+  100% { width: 100%; background: #f41; }
+}
 </style>
 
 <p><a href="https://github.com/darabos/mennyi">
   <img src="https://github.com/favicon.ico" width="20" style="float: right;"></a>
 <p><span id="szint"></span>. szint
 <p>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any">
-<select id="nyelv"></select>
+<select id="nyelv" onchange="languageChanged()"></select>
 <label><input type="checkbox" id="szorzas" />Szorzás</label>
+<label><input type="checkbox" id="irasbeli" />Írásbeli</label>
+<label><input type="checkbox" id="ketjegyu" />Kétjegyű</label>
+<label><input type="checkbox" id="idore" />Időre</label>
+<p id="timer">
+<p id="kerdes">
 <p><button onclick="start()">Start ⏎</button><span id="hangszoro">🔊</span>
 <p><input type="number" id="valasz">
 
@@ -64,37 +91,47 @@ const LANGUAGES = {
     numbers: ['egy', 'kettő', 'három', 'négy', 'öt', 'hat', 'hét', 'nyolc', 'kilenc'],
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
+    slow: ['Túl lassú!', 'Gyorsabban!'],
   },
   'Angol': {
     lang: 'en', prompt: 'What is', plus: 'plus', times: 'times',
     numbers: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
     yes: ['Yes.', 'Correct.', 'Yeah.', 'Indeed.', 'Right.'],
     no: ['No.', 'No.', 'No.', 'No.', 'Nope.', 'Sorry.'],
+    slow: ['Too slow!', 'Faster!', 'Too late!'],
   },
   'Űrlény': {
     lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xooeoeoooo'[n] + 'r',
     numbers: ['ong', 'bong', 'ké', 'melo', 'gik', 'lekka', 'larp', 'donk', 'bedong'],
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
+    slow: ['Túl lassú!', 'Gyorsabban!', 'A bedong nem vár.'],
   },
   'Csibe': {
     lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: 'szer',
     numbers: ['csip', 'csipcsip', 'csipcsipcsip', 'csipcsipcsipcsip', 'csirip', 'csipcsirip', 'csipcsipcsirip', 'csipcsipcsipcsirip', 'csipcsipcsipcsipcsirip'],
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van, kukurikú.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Csip, nem.'],
+    slow: ['Túl lassú!', 'Gyorsabban!', 'Lassú csibe!'],
   },
   'Japán': {
     lang: 'ja', prompt: '', plus: 'たす', times: 'かける', ending: 'とは何ですか？',
     numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
     yes: ['はい。', 'はい。', 'はい。', 'はい。', 'はい、確かに。'],
     no: ['いいえ。', 'いいえ。', 'いいえ。', 'いいえ。', 'とんでもない。'],
+    slow: ['遅すぎる!'],
   },
   'Hónapok': {
     lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xooooooooeeee'[n] + 'r',
     numbers: 'január február március április május június július augusztus szeptember október november december'.split(' '),
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.', 'Tökéletes.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.', 'Tökéletesen rossz.'],
+    slow: ['Túl lassú!', 'Gyorsabban!'],
   },
+}
+function languageChanged() {
+  ketjegyu.disabled = nyelv.value !== 'Magyar' && nyelv.value !== 'Angol' && nyelv.value !== 'Japán';
+  ketjegyu.checked = ketjegyu.checked && !ketjegyu.disabled;
 }
 for (const l in LANGUAGES) {
   nyelv.innerHTML += `<option value="${l}">${l}</option>`;
@@ -106,37 +143,70 @@ function newTask(level) {
   const l = LANGUAGES[nyelv.value];
   let answer, last, mult;
   const words = [];
+  const math = [];
   for (let i = 0; i < level; ++i) {
-    const n = Math.floor(Math.random() * l.numbers.length) + 1;
+    let n = Math.floor(Math.random() * l.numbers.length) + 1;
+    let nword = l.numbers[n-1];
+    if (ketjegyu.checked) {
+      n = 10 + Math.floor(Math.random() * 90);
+      nword = n.toString();
+    }
     if (!answer) {
-      words.push(l.numbers[n-1]);
+      math.push(n);
+      words.push(nword);
       answer = n;
       mult = n;
     } else if (szorzas.checked && Math.random() < 0.5) {
+      math.push(' · ');
+      math.push(n);
       words.push(typeof l.times === 'string' ? l.times : l.times(last));
-      words.push(l.numbers[n-1]);
+      words.push(nword);
       answer += mult * (n - 1);
       mult *= n;
     } else {
+      math.push(' + ');
+      math.push(n);
       words.push(l.plus);
-      words.push(l.numbers[n-1]);
+      words.push(nword);
       answer += n;
       mult = n;
     }
     last = n;
   }
   const text = l.prompt + ' ' + words.join(' ') + (l.ending || '?');
-  return {text, answer};
+  return {math, text, answer};
 }
 let task;
-function start() {
+function start(alsoSay) {
+  if (task) {
+    clearTimeout(task.timeout);
+  }
   task = newTask(level);
+  if (irasbeli.checked) {
+    kerdes.innerHTML = task.math.join('');
+  }
   console.log(task.text);
   answer = '';
   valasz.value = '';
   valasz.style.backgroundColor = null;
   valasz.focus();
-  say(task.text);
+  say((alsoSay || '') + ' ' + task.text);
+  if (idore.checked) {
+    timer.style.display = 'block';
+    // Animáció újraindítása.
+    timer.classList.remove('timer-animation');
+    timer.offsetWidth;
+    timer.classList.add('timer-animation');
+    task.timeout = setTimeout(function() {
+      if (valasz.style.backgroundColor) {
+        start();
+      } else {
+        start(pickRandom(LANGUAGES[nyelv.value].slow));
+      }
+    }, 10000);
+  } else {
+    timer.style.display = 'none';
+  }
 }
 function say(text) {
   const u = new SpeechSynthesisUtterance(text);
@@ -147,8 +217,11 @@ function say(text) {
   u.onend = function() { hangszoro.style.display = 'none'; };
   window.speechSynthesis.speak(u);
 }
+function pickRandom(options) {
+  return options[(Math.random() * options.length)|0];
+}
 function sayRandom(options) {
-  say(options[(Math.random() * options.length)|0]);
+  say(pickRandom(options));
 }
 valasz.onkeypress = function(e) {
   e.preventDefault();
