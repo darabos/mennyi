@@ -195,9 +195,7 @@ function start(alsoSay) {
     clearTimeout(task.timeout);
   }
   task = newTask(level);
-  if (irasbeli.checked) {
-    kerdes.innerHTML = task.math.join('');
-  }
+  kerdes.innerHTML = irasbeli.checked ? task.math.join('') : '';
   console.log(task.text);
   answer = '';
   valasz.value = '';
