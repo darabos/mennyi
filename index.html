@@ -76,10 +76,12 @@ label {
 <p><span id="szint"></span>. szint <span id="pont">0</span> pont
 <p>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any">
 <select id="nyelv" onchange="languageChanged()"></select>
+<label><input type="checkbox" id="osszeadas" checked disabled />Összeadás</label>
 <label><input type="checkbox" id="szorzas" />Szorzás</label>
 <label><input type="checkbox" id="irasbeli" />Írásbeli</label>
 <label><input type="checkbox" id="ketjegyu" />Kétjegyű</label>
 <label><input type="checkbox" id="idore" />Időre</label>
+<label><input type="checkbox" id="szintlepes" checked />Szintlépés</label>
 <p id="timer">
 <p id="kerdes">
 <p><button onclick="start()">Start ⏎</button><span id="hangszoro">🔊</span>
@@ -136,6 +138,14 @@ function languageChanged() {
   ketjegyu.disabled = nyelv.value !== 'Magyar' && nyelv.value !== 'Angol' && nyelv.value !== 'Japán';
   ketjegyu.checked = ketjegyu.checked && !ketjegyu.disabled;
 }
+osszeadas.onchange = () => {
+  szorzas.disabled = !osszeadas.checked;
+  szorzas.checked = szorzas.checked || szorzas.disabled;
+}
+szorzas.onchange = () => {
+  osszeadas.disabled = !szorzas.checked;
+  osszeadas.checked = osszeadas.checked || osszeadas.disabled;
+}
 for (const l in LANGUAGES) {
   nyelv.innerHTML += `<option value="${l}">${l}</option>`;
 }
@@ -159,7 +169,7 @@ function newTask(level) {
       words.push(nword);
       answer = n;
       mult = n;
-    } else if (szorzas.checked && Math.random() < 0.5) {
+    } else if (szorzas.checked && Math.random() < 0.5 || !osszeadas.checked) {
       math.push(' · ');
       math.push(n);
       words.push(typeof l.times === 'string' ? l.times : l.times(last));
@@ -243,12 +253,14 @@ valasz.onkeypress = function(e) {
       if (!irasbeli.checked) score *= 10;
       pont.textContent = parseInt(pont.textContent) + score;
       valasz.style.backgroundColor = '#6f4';
-      level += 1;
-      szint.textContent = level;
+      if (szintlepes.checked) {
+        level += 1;
+        szint.textContent = level;
+      }
       sayRandom(LANGUAGES[nyelv.value].yes);
     } else if (!correct.startsWith(answer)) {
       valasz.style.backgroundColor = '#f64';
-      if (level > 2) {
+      if (szintlepes.checked && level > 2) {
         level -= 1;
         szint.textContent = level;
       }
