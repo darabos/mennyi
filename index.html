@@ -10,7 +10,7 @@ input[type=range] {
   font-size: 100%;
   width: 200px;
 }
-#szint, #valasz {
+#szint, #valasz, #pont {
   font-size: 200%;
 }
 #valasz {
@@ -66,11 +66,14 @@ label {
   95% { background: #991; }
   100% { width: 100%; background: #f41; }
 }
+#pont {
+  margin-left: 50px;
+}
 </style>
 
 <p><a href="https://github.com/darabos/mennyi">
   <img src="https://github.com/favicon.ico" width="20" style="float: right;"></a>
-<p><span id="szint"></span>. szint
+<p><span id="szint"></span>. szint <span id="pont">0</span> pont
 <p>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any">
 <select id="nyelv" onchange="languageChanged()"></select>
 <label><input type="checkbox" id="szorzas" />Szorzás</label>
@@ -87,7 +90,7 @@ label {
 speechSynthesis.onvoiceschanged = function() {};
 const LANGUAGES = {
   'Magyar': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xeöoeöoeoe'[n] + 'r',
+    lang: 'hu', prompt: 'Mennyi', plus: 'meg', times: n => 'sz' + 'xeöoeöoeoe'[n%10] + 'r',
     numbers: ['egy', 'kettő', 'három', 'négy', 'öt', 'hat', 'hét', 'nyolc', 'kilenc'],
     yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
@@ -233,6 +236,12 @@ valasz.onkeypress = function(e) {
     answer = answer + e.key;
     const correct = task.answer.toString();
     if (answer === correct) {
+      let score = level;
+      if (szorzas.checked) score *= 2;
+      if (ketjegyu.checked) score *= 5;
+      if (idore.checked) score *= 10;
+      if (!irasbeli.checked) score *= 10;
+      pont.textContent = parseInt(pont.textContent) + score;
       valasz.style.backgroundColor = '#6f4';
       level += 1;
       szint.textContent = level;
