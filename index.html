@@ -262,7 +262,7 @@ valasz.onkeypress = function(e) {
         level += 1;
         szint.textContent = level;
       }
-      sayRandom(LANGUAGES[nyelv.value].yes);
+      say(correct + ', ' + pickRandom(LANGUAGES[nyelv.value].yes));
     } else if (!correct.startsWith(answer)) {
       valasz.style.backgroundColor = '#f64';
       if (szintlepes.checked && level > 2) {
