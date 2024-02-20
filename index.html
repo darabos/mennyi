@@ -133,6 +133,13 @@ const LANGUAGES = {
     no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.', 'Tökéletesen rossz.'],
     slow: ['Túl lassú!', 'Gyorsabban!'],
   },
+  'Hindi': {
+    lang: 'hi', prompt: '', plus: 'और', times: 'गुणा', ending: 'क्या है?',
+    numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    yes: ['सही!', 'हाँ!', 'बिल्कुल!', 'सही।'],
+    no: ['नहीं।', 'गलत.'],
+    slow: ['बहुत धीमा।', 'और वक्त नहीं।'],
+  },
 }
 function languageChanged() {
   ketjegyu.disabled = nyelv.value !== 'Magyar' && nyelv.value !== 'Angol' && nyelv.value !== 'Japán';
