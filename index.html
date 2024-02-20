@@ -134,7 +134,7 @@ const LANGUAGES = {
     slow: ['Túl lassú!', 'Gyorsabban!'],
   },
   'Hindi': {
-    lang: 'hi', prompt: '', plus: 'और', times: 'गुणा', ending: 'क्या है?',
+    lang: 'hi', prompt: '', plus: 'और', times: 'गुणा', ending: "कितना है?",
     numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
     yes: ['सही!', 'हाँ!', 'बिल्कुल!', 'सही।'],
     no: ['नहीं।', 'गलत.'],
@@ -142,7 +142,7 @@ const LANGUAGES = {
   },
 }
 function languageChanged() {
-  ketjegyu.disabled = nyelv.value !== 'Magyar' && nyelv.value !== 'Angol' && nyelv.value !== 'Japán';
+  ketjegyu.disabled = nyelv.value !== 'Magyar' && nyelv.value !== 'Angol' && nyelv.value !== 'Japán' && nyelv.value !== "Hindi";
   ketjegyu.checked = ketjegyu.checked && !ketjegyu.disabled;
 }
 osszeadas.onchange = () => {
