@@ -113,8 +113,24 @@
   }
   .avatar {
     border-radius: 30%;
-    border: 2px solid white;
     box-shadow: 0 5px 20px #0004;
+    cursor: pointer;
+  }
+  .avatar.selected {
+    outline: 2px solid white;
+  }
+  .avatar.none {
+    display: inline-flex;
+    font-size: 70px;
+    box-shadow: none;
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+    justify-content: center;
+    align-items: center;
+  }
+  #avatar {
+    border: 2px solid white;
   }
   .star-icon {
     width: 25px;
@@ -149,7 +165,21 @@
     height: 5px;
     background: linear-gradient(to right, #ff0 0%, #f40 100%);
   }
-  #game {
+  .close {
+    transform: scaleX(-1);
+    position: absolute;
+    padding: 20px 0;
+    cursor: pointer;
+  }
+  #kedvenc {
+    position: absolute;
+    border-radius: 10px 0 0 10px;
+    top: 30%;
+    left: -40px;
+    z-index: 0;
+  }
+  #locker,
+  #battlepass {
     display: none;
   }
 </style>
@@ -162,6 +192,7 @@
         <div class="bp-bar-outside"><div class="bp-bar-inside" style="width: 90%"></div></div>
       </div>
       <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
+      <img src="images/furballs-sana/Samantha.jpg" width="40" id="kedvenc" />
     </div>
   </div>
   <p>
@@ -192,24 +223,16 @@
 </div>
 
 <div id="locker" class="bg">
-  <h1>Öltöző</h1>
+  <div>
+    <div class="close" id="closelocker">➜</div>
+    <h1>Öltöző</h1>
+  </div>
   <p>
-    <label><input type="radio" name="lockerpage" checked />Tudós</label>
-    <label><input type="radio" name="lockerpage" />Kedvenc</label>
-    <label><input type="radio" name="lockerpage" />Színek</label>
+    <label><input type="radio" name="lockerpage" id="locker_kutato" checked />Kutató</label>
+    <label><input type="radio" name="lockerpage" id="locker_kedvenc" />Kedvenc</label>
+    <label><input type="radio" name="lockerpage" id="locker_szinek" />Színek</label>
   </p>
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
+  <div id="lockeroptions"></div>
 </div>
 
 <div id="battlepass" class="bg">
@@ -219,21 +242,21 @@
         25 <img src="images/star-outlined.webp" class="star-icon" />
         <div class="bp-bar-outside"><div class="bp-bar-inside" style="width: 90%"></div></div>
       </div>
-      <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
+      <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
     </div>
   </div>
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-  <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
+  <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
 </div>
 
 <script src="matek.js"></script>
