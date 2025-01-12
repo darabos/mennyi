@@ -119,15 +119,17 @@
   .avatar.selected {
     outline: 2px solid white;
   }
-  .avatar.none {
+  .avatar.text {
     display: inline-flex;
     font-size: 70px;
-    box-shadow: none;
     width: 100px;
     height: 100px;
     vertical-align: top;
     justify-content: center;
     align-items: center;
+  }
+  .avatar.none {
+    box-shadow: none;
   }
   #avatar {
     border: 2px solid white;
@@ -171,9 +173,13 @@
     padding: 20px 0;
     cursor: pointer;
   }
+  #lockeroptions .avatar {
+    margin: 4px;
+  }
   #kedvenc {
     position: absolute;
     border-radius: 10px 0 0 10px;
+    outline: 1px solid white;
     top: 30%;
     left: -40px;
     z-index: 0;
