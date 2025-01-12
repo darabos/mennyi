@@ -151,7 +151,7 @@
     top: 30%;
     left: 100%;
     width: 50px;
-    z-index: 0;
+    cursor: pointer;
   }
   .bp-bar-outside {
     display: block;
@@ -187,7 +187,7 @@
 <div id="game" class="bg">
   <div style="text-align: center">
     <div class="bp-header">
-      <div class="bp-progress">
+      <div class="bp-progress" id="bpstatus">
         25 <img src="images/star-outlined.webp" class="star-icon" />
         <div class="bp-bar-outside"><div class="bp-bar-inside" style="width: 90%"></div></div>
       </div>
@@ -236,6 +236,10 @@
 </div>
 
 <div id="battlepass" class="bg">
+  <div>
+    <div class="close" id="closebp">➜</div>
+    <h1>Battle Pass</h1>
+  </div>
   <div style="text-align: center">
     <div class="bp-header">
       <div class="bp-progress">
@@ -260,4 +264,5 @@
 </div>
 
 <script src="matek.js"></script>
+<script src="locker.js"></script>
 <script src="battlepass.js"></script>
