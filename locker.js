@@ -69,6 +69,9 @@ const SZINEK = {
   snail: '#333 #fa0',
   elphaba: '#222 #393',
   barbie: '#fcf #faf',
+  snake: '#546 #90a',
+  banana: '#ffd #fd4',
+  silver: '#ddd #888',
 };
 
 function showLockerOptions(options, selected, template) {
