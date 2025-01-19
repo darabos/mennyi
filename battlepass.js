@@ -105,6 +105,10 @@ function showBattlePass() {
     ...ALL_KEDVENC.map(opt => {
       return `<img src="images/furballs-sana/${opt}.jpg" width="100" class="avatar" />`;
     }),
+    ...Object.keys(SZINEK).map(sz => {
+      const [c1, c2] = SZINEK[sz].split(' ');
+      return `<span class="avatar text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)" ></span>`;
+    }),
   ].join('');
 }
 
