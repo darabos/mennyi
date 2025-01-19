@@ -1,10 +1,5 @@
 const bpData = JSON.parse(localStorage.getItem('battlepass') || '{}');
 localStorage.setItem('battlepass', JSON.stringify(bpData));
-bpstatus.onclick = function () {
-  game.style.display = 'none';
-  battlepass.style.display = 'block';
-  showBattlePass();
-};
 
 const ALL_KEDVENC = `
 Anna
@@ -97,6 +92,10 @@ zebra-m
   .split('\n');
 
 function showBattlePass() {
+  document.querySelectorAll('.bg').forEach(e => {
+    e.style.display = 'none';
+  });
+  battlepass.style.display = 'block';
   const options = ALL_KUTATO;
   battlepassoptions.innerHTML = [
     ...ALL_KUTATO.map(opt => {
@@ -112,7 +111,7 @@ function showBattlePass() {
   ].join('');
 }
 
-closebp.onclick = function () {
-  battlepass.style.display = 'none';
-  game.style.display = 'block';
-};
+bpstatus.onclick = showBattlePass;
+document.querySelectorAll('.ti-stars').forEach(e => {
+  e.onclick = showBattlePass;
+});

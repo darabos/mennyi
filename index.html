@@ -170,12 +170,6 @@
     height: 5px;
     background: linear-gradient(to right, #ff0 0%, #f40 100%);
   }
-  .close {
-    transform: scaleX(-1);
-    position: absolute;
-    padding: 20px 0;
-    cursor: pointer;
-  }
   #battlepassoptions .avatar,
   #lockeroptions .avatar {
     margin: 4px;
@@ -188,11 +182,36 @@
     left: -40px;
     z-index: 0;
   }
+  .bg-header {
+    .icons {
+      font-size: 30px;
+      display: flex;
+      justify-content: space-around;
+      i {
+        color: #0008;
+        display: block;
+        cursor: pointer;
+        border-radius: 0 0 10px 10px;
+        padding: 5px;
+      }
+      i.selected {
+        background-color: var(--border-color);
+        color: var(--bg-color);
+      }
+    }
+    h1 {
+      padding: 0;
+      margin: 0;
+    }
+  }
   #locker,
+  #shop,
+  #missions,
   #battlepass {
     display: none;
   }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.1/dist/tabler-icons.min.css" />
 
 <div id="game" class="bg">
   <div style="text-align: center">
@@ -233,8 +252,14 @@
 </div>
 
 <div id="locker" class="bg">
-  <div>
-    <div class="close" id="closelocker">➜</div>
+  <div class="bg-header">
+    <div class="icons">
+      <i class="ti ti-home"></i>
+      <i class="ti ti-shirt selected"></i>
+      <i class="ti ti-flag"></i>
+      <i class="ti ti-stars"></i>
+      <i class="ti ti-shopping-cart"></i>
+    </div>
     <h1>Öltöző</h1>
   </div>
   <p>
@@ -246,22 +271,49 @@
 </div>
 
 <div id="battlepass" class="bg">
-  <div>
-    <div class="close" id="closebp">➜</div>
+  <div class="bg-header">
+    <div class="icons">
+      <i class="ti ti-home"></i>
+      <i class="ti ti-shirt"></i>
+      <i class="ti ti-flag"></i>
+      <i class="ti ti-stars selected"></i>
+      <i class="ti ti-shopping-cart"></i>
+    </div>
     <h1>Battle Pass</h1>
   </div>
-  <div style="text-align: center">
-    <div class="bp-header">
-      <div class="bp-progress">
-        25 <img src="images/star-outlined.webp" class="star-icon" />
-        <div class="bp-bar-outside"><div class="bp-bar-inside" style="width: 90%"></div></div>
-      </div>
-      <img src="images/space-animals-sana/snail-m.jpeg" width="100" class="avatar" />
-    </div>
-  </div>
   <div id="battlepassoptions"></div>
+</div>
+
+<div id="shop" class="bg">
+  <div class="bg-header">
+    <div class="icons">
+      <i class="ti ti-home"></i>
+      <i class="ti ti-shirt"></i>
+      <i class="ti ti-flag"></i>
+      <i class="ti ti-stars"></i>
+      <i class="ti ti-shopping-cart selected"></i>
+    </div>
+    <h1>Bolt</h1>
+  </div>
+  <div id="shopoptions"></div>
+</div>
+
+<div id="missions" class="bg">
+  <div class="bg-header">
+    <div class="icons">
+      <i class="ti ti-home"></i>
+      <i class="ti ti-shirt"></i>
+      <i class="ti ti-flag selected"></i>
+      <i class="ti ti-stars"></i>
+      <i class="ti ti-shopping-cart"></i>
+    </div>
+    <h1>Küldetések</h1>
+  </div>
+  <div id="missionlist"></div>
 </div>
 
 <script src="matek.js"></script>
 <script src="locker.js"></script>
 <script src="battlepass.js"></script>
+<script src="missions.js"></script>
+<script src="shop.js"></script>

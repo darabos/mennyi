@@ -6,12 +6,11 @@ lockerData.selectedKedvenc = lockerData.selectedKedvenc || 'none';
 lockerData.szinek = lockerData.szinek || ['plain', 'snail'];
 lockerData.selectedSzinek = lockerData.selectedSzinek || 'plain';
 localStorage.setItem('locker', JSON.stringify(lockerData));
-avatar.onclick = function () {
-  game.style.display = 'none';
-  locker.style.display = 'block';
-  showLocker();
-};
 function showLocker() {
+  document.querySelectorAll('.bg').forEach(e => {
+    e.style.display = 'none';
+  });
+  locker.style.display = 'block';
   if (locker_kutato.checked) {
     showLockerOptions(
       lockerData.kutatok,
@@ -24,6 +23,7 @@ function showLocker() {
         localStorage.setItem('locker', JSON.stringify(lockerData));
         lockeroptions.querySelectorAll('.avatar').forEach(avatar => avatar.classList.remove('selected'));
         avatar.classList.add('selected');
+        applyLockerSettings();
       };
     });
   } else if (locker_kedvenc.checked) {
@@ -41,6 +41,7 @@ function showLocker() {
         localStorage.setItem('locker', JSON.stringify(lockerData));
         lockeroptions.querySelectorAll('.avatar').forEach(avatar => avatar.classList.remove('selected'));
         avatar.classList.add('selected');
+        applyLockerSettings();
       };
     });
   } else if (locker_szinek.checked) {
@@ -58,7 +59,6 @@ function showLocker() {
         localStorage.setItem('locker', JSON.stringify(lockerData));
         lockeroptions.querySelectorAll('.avatar').forEach(avatar => avatar.classList.remove('selected'));
         avatar.classList.add('selected');
-        console.log(lockerData.selectedSzinek);
         applyLockerSettings();
       };
     });
@@ -102,12 +102,20 @@ function applyLockerSettings() {
   document.documentElement.style.cssText = `--border-color: ${c1}; --bg-color: ${c2}`;
 }
 applyLockerSettings();
-closelocker.onclick = function () {
-  applyLockerSettings();
-  locker.style.display = 'none';
+function showGame() {
+  document.querySelectorAll('.bg').forEach(e => {
+    e.style.display = 'none';
+  });
   game.style.display = 'block';
-};
+}
 
 locker_kutato.onclick = showLocker;
 locker_kedvenc.onclick = showLocker;
 locker_szinek.onclick = showLocker;
+avatar.onclick = showLocker;
+document.querySelectorAll('.ti-shirt').forEach(e => {
+  e.onclick = showLocker;
+});
+document.querySelectorAll('.ti-home').forEach(e => {
+  e.onclick = showGame;
+});
