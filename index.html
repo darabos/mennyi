@@ -112,7 +112,11 @@
   }
   h1 {
     text-align: center;
-    padding: 10px;
+    padding: 0;
+    margin: 5px;
+  }
+  h2 {
+    margin: 0;
   }
   .avatar {
     border-radius: 30%;
@@ -175,6 +179,7 @@
     margin: 4px;
   }
   #kedvenc {
+    cursor: pointer;
     position: absolute;
     border-radius: 10px 0 0 10px;
     outline: 1px solid white;
@@ -199,10 +204,24 @@
         color: var(--bg-color);
       }
     }
-    h1 {
-      padding: 0;
-      margin: 0;
-    }
+  }
+  .mission-list {
+    padding: 0;
+  }
+  .mission-list li {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    background-color: #fff4;
+    border-radius: 5px;
+    padding: 2px 5px;
+    margin: 3px;
+    font: 15px sans-serif;
+  }
+  .mission-reward {
+    font-size: 10px;
   }
   #locker,
   #shop,
@@ -258,7 +277,6 @@
       <i class="ti ti-shirt selected"></i>
       <i class="ti ti-flag"></i>
       <i class="ti ti-stars"></i>
-      <i class="ti ti-shopping-cart"></i>
     </div>
     <h1>Öltöző</h1>
   </div>
@@ -277,7 +295,6 @@
       <i class="ti ti-shirt"></i>
       <i class="ti ti-flag"></i>
       <i class="ti ti-stars selected"></i>
-      <i class="ti ti-shopping-cart"></i>
     </div>
     <h1>Battle Pass</h1>
   </div>
@@ -305,9 +322,7 @@
       <i class="ti ti-shirt"></i>
       <i class="ti ti-flag selected"></i>
       <i class="ti ti-stars"></i>
-      <i class="ti ti-shopping-cart"></i>
     </div>
-    <h1>Küldetések</h1>
   </div>
   <div id="missionlist"></div>
 </div>

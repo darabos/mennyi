@@ -112,7 +112,14 @@ function showGame() {
 locker_kutato.onclick = showLocker;
 locker_kedvenc.onclick = showLocker;
 locker_szinek.onclick = showLocker;
-avatar.onclick = showLocker;
+avatar.onclick = () => {
+  locker_kutato.checked = true;
+  showLocker();
+};
+kedvenc.onclick = () => {
+  locker_kedvenc.checked = true;
+  showLocker();
+};
 document.querySelectorAll('.ti-shirt').forEach(e => {
   e.onclick = showLocker;
 });
