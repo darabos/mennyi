@@ -175,7 +175,7 @@ function newTask(level) {
     last = n;
   }
   const text = l.prompt + ' ' + words.join(' ') + (l.ending || '?');
-  return { math, text, answer };
+  return { math, text, answer, digits: ketjegyu.checked ? 2 : 1, level };
 }
 let task;
 function start(alsoSay) {
@@ -246,6 +246,7 @@ valasz.onkeypress = function (e) {
         szint.textContent = level;
       }
       say(correct + ', ' + pickRandom(LANGUAGES[nyelv.value].yes));
+      missionEvent({ correct: true, ...task });
     } else if (!correct.startsWith(answer)) {
       valasz.style.backgroundColor = '#f64';
       if (szintlepes.checked && level > 2) {
@@ -253,6 +254,7 @@ valasz.onkeypress = function (e) {
         szint.textContent = level;
       }
       sayRandom(LANGUAGES[nyelv.value].no);
+      missionEvent({ correct: false, ...task });
     }
     valasz.value = answer;
   }
