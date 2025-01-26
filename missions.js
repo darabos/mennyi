@@ -7,10 +7,8 @@ missionData.daily ||= {};
 missionData.daily[today] ||= {};
 missionData.weekly ||= {};
 missionData.weekly[weekend] ||= {};
-const dailyMissions = missionData.daily[today];
-const weeklyMissions = missionData.weekly[weekend];
-dailyMissions.done ||= 0;
-weeklyMissions.done ||= 0;
+const dailyData = missionData.daily[today];
+const weeklyData = missionData.weekly[weekend];
 localStorage.setItem('missions', JSON.stringify(missionData));
 // Number of days since 1970-01-01.
 function dateNum(date) {
@@ -20,17 +18,27 @@ const dailyNum = dateNum(todayDate);
 const weeklyNum = dateNum(weekendDate);
 function getDailyMissions() {
   const missions = [];
-  for (let i = 0; i < 3; ++i) {
-    const m = getMission(dailyNum * 1000 + dailyMissions.done + i, false);
-    missions.push(m);
+  missions.done = 0;
+  for (let i = dailyNum * 1000; missions.length < 3; ++i) {
+    if (dailyData[i]?.done) {
+      missions.done += 1;
+    } else {
+      const m = getMission(i, false);
+      missions.push(m);
+    }
   }
   return missions;
 }
 function getWeeklyMissions() {
   const missions = [];
-  for (let i = 0; i < 5; ++i) {
-    const m = getMission(weeklyNum * 1001 + weeklyMissions.done + i, true);
-    missions.push(m);
+  missions.done = 0;
+  for (let i = weeklyNum * 1001; missions.length < 3; ++i) {
+    if (weeklyData[i]?.done) {
+      missions.done += 1;
+    } else {
+      const m = getMission(i, true);
+      missions.push(m);
+    }
   }
   return missions;
 }
@@ -76,7 +84,7 @@ function getMission(num, weekly) {
     }
   }
   m.reward = weekly ? 5000 : 2000;
-  const data = weekly ? weeklyMissions : dailyMissions;
+  const data = weekly ? weeklyData : dailyData;
   data[num] ||= {};
   data[num].progress ||= 0;
   m.data = data[num];
@@ -96,12 +104,7 @@ function missionEvent(e) {
     if (missionMatch(m, e)) {
       m.data.progress += 1;
       if (m.data.progress === m.count) {
-        m.done = true;
-        if (m.weekly) {
-          weeklyMissions.done += 1;
-        } else {
-          dailyMissions.done += 1;
-        }
+        m.data.done = true;
       }
     } else if (m.consecutive) {
       m.data.progress = 0;
