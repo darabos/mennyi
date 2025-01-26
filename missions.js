@@ -29,7 +29,7 @@ function getDailyMissions() {
 function getWeeklyMissions() {
   const missions = [];
   for (let i = 0; i < 5; ++i) {
-    const m = getMission(todayNum * 1001 + todayMissions.done + i, true);
+    const m = getMission(todayNum * 1001 + weekMissions.done + i, true);
     missions.push(m);
   }
   return missions;
@@ -89,14 +89,32 @@ function showMissions() {
   const weeklyText = weeklyMissions
     .map(m => `<li><span class="mission-text">${m.text}</span><span class="mission-reward">+5,000 XP</span></li>`)
     .join('');
+  const dailyProgress = Array.from({ length: 3 }, (_, i) => {
+    const reward = '20,000 XP';
+    return i < todayMissions.done
+      ? `<i class="ti ti-circle-check-filled"><b class="done">${reward}</b></i>`
+      : `<i class="ti ti-circle"><b>${reward}</b></i>`;
+  }).join('');
+  const weeklyProgress = Array.from({ length: 5 }, (_, i) => {
+    const reward = i === 4 ? '<img src="images/star-outlined.webp"/>' : '30,000 XP';
+    return i < weekMissions.done
+      ? `<i class="ti ti-circle-check-filled"><b class="done">${reward}</b></i>`
+      : `<i class="ti ti-circle"><b>${reward}</b></i>`;
+  }).join('');
   missionlist.innerHTML = `
     <h1>Napi küldetések</h1>
     <small>${today}</small>
+    <div class="mission-progress">
+      ${dailyProgress}
+    </div>
     <ul class="mission-list">
       ${dailyText}
     </ul>
     <h1>Heti küldetések</h1>
     <small>${weekend}-ig</small>
+    <div class="mission-progress">
+      ${weeklyProgress}
+    </div>
     <ul class="mission-list">
       ${weeklyText}
     </ul>
