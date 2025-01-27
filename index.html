@@ -284,10 +284,27 @@
   #battlepass {
     display: none;
   }
+  .floater {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    pointer-events: none;
+    animation: floatUp 1s ease-out forwards;
+  }
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+  }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.1/dist/tabler-icons.min.css" />
 
-<div id="game" class="bg">
+<div id="matek" class="bg">
   <div style="text-align: center">
     <div class="bp-header">
       <div class="bp-progress" id="bpstatus">

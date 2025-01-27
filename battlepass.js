@@ -1,5 +1,14 @@
 const bpData = JSON.parse(localStorage.getItem('battlepass') || '{}');
-bpData.xp ||= 0;
+function getSeasonEnd() {
+  // 2-month seasons.
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = new Date(year, month + (month % 2), 0);
+  return date.toLocaleDateString('hu');
+}
+const seasonEnd = getSeasonEnd();
+bpData[seasonEnd] ??= { xp: 0 };
 localStorage.setItem('battlepass', JSON.stringify(bpData));
 
 const ALL_KEDVENC = `
@@ -112,9 +121,31 @@ function showBattlePass() {
   ].join('');
 }
 
+function floatOff(element, msg) {
+  const floater = document.createElement('div');
+  floater.classList.add('floater');
+  floater.innerHTML = msg;
+  document.body.appendChild(floater);
+  const rect = element.getBoundingClientRect();
+  floater.style.left = `${rect.left / 2 + rect.right / 2 + window.scrollX - floater.offsetWidth / 2}px`;
+  floater.style.top = `${rect.top + window.scrollY}px`;
+  setTimeout(() => {
+    floater.remove();
+  }, 1000);
+  return floater;
+}
+
 function xpEvent(xp) {
-  bpData.xp += xp;
+  floatOff(valasz, `+${xp} XP`);
+  bpData[seasonEnd].xp += xp;
+  while (bpData[seasonEnd].xp > 100000) {
+    bpData[seasonEnd].xp -= 100000;
+    floatOff(bpstatus, '<img src="images/star-outlined.webp" class="star-icon" />');
+  }
   localStorage.setItem('battlepass', JSON.stringify(bpData));
+  document.querySelectorAll('.bp-bar-inside').forEach(e => {
+    e.style.width = `${bpData[seasonEnd].xp / 1000}%`;
+  });
 }
 
 bpstatus.onclick = showBattlePass;

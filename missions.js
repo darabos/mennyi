@@ -3,10 +3,10 @@ const todayDate = new Date();
 const today = todayDate.toLocaleDateString('hu');
 const weekendDate = new Date(new Date().setDate(new Date().getDate() + 7 - new Date().getDay()));
 const weekend = weekendDate.toLocaleDateString('hu');
-missionData.daily ||= {};
-missionData.daily[today] ||= {};
-missionData.weekly ||= {};
-missionData.weekly[weekend] ||= {};
+missionData.daily ??= {};
+missionData.daily[today] ??= {};
+missionData.weekly ??= {};
+missionData.weekly[weekend] ??= {};
 const dailyData = missionData.daily[today];
 const weeklyData = missionData.weekly[weekend];
 localStorage.setItem('missions', JSON.stringify(missionData));
@@ -85,8 +85,8 @@ function getMission(num, weekly) {
   }
   m.reward = weekly ? 5000 : 2000;
   const data = weekly ? weeklyData : dailyData;
-  data[num] ||= {};
-  data[num].progress ||= 0;
+  data[num] ??= {};
+  data[num].progress ??= 0;
   m.data = data[num];
   return m;
 }

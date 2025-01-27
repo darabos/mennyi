@@ -1,10 +1,10 @@
 const lockerData = JSON.parse(localStorage.getItem('locker') || '{}');
-lockerData.kutatok = lockerData.kutatok || ['snail-m', 'snail-f'];
-lockerData.selectedKutato = lockerData.selectedKutato || 'snail-f';
-lockerData.kedvencek = lockerData.kedvencek || ['Samantha', 'Dennis'];
-lockerData.selectedKedvenc = lockerData.selectedKedvenc || 'none';
-lockerData.szinek = lockerData.szinek || ['plain', 'snail'];
-lockerData.selectedSzinek = lockerData.selectedSzinek || 'plain';
+lockerData.kutatok ??= ['snail-m', 'snail-f'];
+lockerData.selectedKutato ??= 'snail-f';
+lockerData.kedvencek ??= ['Samantha', 'Dennis'];
+lockerData.selectedKedvenc ??= 'none';
+lockerData.szinek ??= ['plain', 'snail'];
+lockerData.selectedSzinek ??= 'plain';
 localStorage.setItem('locker', JSON.stringify(lockerData));
 function showLocker() {
   document.querySelectorAll('.bg').forEach(e => {
@@ -102,11 +102,11 @@ function applyLockerSettings() {
   document.documentElement.style.cssText = `--border-color: ${c1}; --bg-color: ${c2}`;
 }
 applyLockerSettings();
-function showGame() {
+function showMatek() {
   document.querySelectorAll('.bg').forEach(e => {
     e.style.display = 'none';
   });
-  game.style.display = 'block';
+  matek.style.display = 'block';
 }
 
 locker_kutato.onclick = showLocker;
@@ -124,5 +124,5 @@ document.querySelectorAll('.ti-shirt').forEach(e => {
   e.onclick = showLocker;
 });
 document.querySelectorAll('.ti-home').forEach(e => {
-  e.onclick = showGame;
+  e.onclick = showMatek;
 });

@@ -1,3 +1,47 @@
+function loadMatekData() {
+  const matekData = JSON.parse(localStorage.getItem('matek') || '{}');
+  matekData.nyelv ??= 'Magyar';
+  matekData.sebesseg ??= 1;
+  matekData.osszeadas ??= true;
+  matekData.kivonas ??= false;
+  matekData.szorzas ??= false;
+  matekData.irasbeli ??= false;
+  matekData.ketjegyu ??= false;
+  matekData.idore ??= false;
+  matekData.szint ??= 2;
+  matekData.szintlepes ??= true;
+  localStorage.setItem('matek', JSON.stringify(matekData));
+  nyelv.value = matekData.nyelv;
+  sebesseg.value = matekData.sebesseg;
+  osszeadas.checked = matekData.osszeadas;
+  kivonas.checked = matekData.kivonas;
+  szorzas.checked = matekData.szorzas;
+  irasbeli.checked = matekData.irasbeli;
+  ketjegyu.checked = matekData.ketjegyu;
+  idore.checked = matekData.idore;
+  szint.value = matekData.szint;
+  szintlepes.checked = matekData.szintlepes;
+}
+loadMatekData();
+function saveMatekData() {
+  const matekData = {
+    nyelv: nyelv.value,
+    sebesseg: parseFloat(sebesseg.value),
+    osszeadas: osszeadas.checked,
+    kivonas: kivonas.checked,
+    szorzas: szorzas.checked,
+    irasbeli: irasbeli.checked,
+    ketjegyu: ketjegyu.checked,
+    idore: idore.checked,
+    szint: parseInt(szint.value),
+    szintlepes: szintlepes.checked,
+  };
+  localStorage.setItem('matek', JSON.stringify(matekData));
+}
+matek.querySelectorAll('input, select').forEach(e => {
+  e.addEventListener('change', saveMatekData);
+});
+
 speechSynthesis.onvoiceschanged = function () {};
 const LANGUAGES = {
   Magyar: {
@@ -111,6 +155,7 @@ function keepOne() {
 osszeadas.onchange = keepOne;
 kivonas.onchange = keepOne;
 szorzas.onchange = keepOne;
+keepOne();
 for (const l in LANGUAGES) {
   nyelv.innerHTML += `<option value="${l}">${l}</option>`;
 }
@@ -232,7 +277,7 @@ valasz.onkeypress = function (e) {
     answer = answer + e.key;
     const correct = task.answer.toString();
     if (answer === correct) {
-      let score = parseInt(szint.value);
+      let score = parseInt(szint.value) * 10;
       if (szorzas.checked) score *= 2;
       if (ketjegyu.checked) score *= 5;
       if (idore.checked) score *= 10;
