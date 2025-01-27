@@ -109,10 +109,10 @@ function showBattlePass() {
   const options = ALL_KUTATO;
   battlepassoptions.innerHTML = [
     ...ALL_KUTATO.map(opt => {
-      return `<img src="images/space-animals-sana/${opt}.jpeg" width="100" class="avatar" />`;
+      return `<img src="images/space-animals-sana/${opt}.jpeg" width="150" class="avatar" />`;
     }),
     ...ALL_KEDVENC.map(opt => {
-      return `<img src="images/furballs-sana/${opt}.jpg" width="100" class="avatar" />`;
+      return `<img src="images/furballs-sana/${opt}.jpg" width="150" class="avatar" />`;
     }),
     ...Object.keys(SZINEK).map(sz => {
       const [c1, c2] = SZINEK[sz].split(' ');
@@ -143,10 +143,14 @@ function xpEvent(xp) {
     floatOff(bpstatus, '<img src="images/star-outlined.webp" class="star-icon" />');
   }
   localStorage.setItem('battlepass', JSON.stringify(bpData));
+  showXp();
+}
+function showXp() {
   document.querySelectorAll('.bp-bar-inside').forEach(e => {
     e.style.width = `${bpData[seasonEnd].xp / 1000}%`;
   });
 }
+showXp();
 
 bpstatus.onclick = showBattlePass;
 document.querySelectorAll('.ti-stars').forEach(e => {

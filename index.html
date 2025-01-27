@@ -8,14 +8,17 @@
     accent-color: var(--border-color);
     transition: background-color 0.5s;
     font-family: sans-serif;
-    zoom: 1.5;
-    font-size: 120%;
+    font-size: 180%;
   }
   input[type='range'] {
     font-size: 100%;
-    width: 200px;
+    width: 300px;
+  }
+  input[type='checkbox'] {
+    zoom: 1.5;
   }
   #szint {
+    font: 22px sans-serif;
     width: 35px;
     border: 0;
     background: none;
@@ -26,7 +29,7 @@
     font-size: 200%;
   }
   #valasz {
-    padding: 5px 10px;
+    padding: 8px 15px;
     width: 100%;
   }
   #hangszoro {
@@ -37,19 +40,19 @@
   }
   button {
     font-size: 100%;
-    padding: 10px 30px;
-    border-radius: 10px;
+    padding: 15px 45px;
+    border-radius: 15px;
   }
   .bg {
-    margin: 30px auto;
-    width: 25vw;
-    min-width: 250px;
-    padding: 50px;
+    margin: 45px auto;
+    width: 40vw;
+    min-width: 490px;
+    padding: 75px;
     padding-top: 0;
-    border-radius: 50px;
+    border-radius: 75px;
     background-color: var(--bg-color);
     transition: background-color 0.2s;
-    box-shadow: 0 10px 10px #0004;
+    box-shadow: 0 15px 15px #0004;
   }
   @keyframes pulse {
     0% {
@@ -79,10 +82,10 @@
     display: inline-block;
     border: 1px solid var(--border-color);
     background-color: #fff4;
-    border-radius: 5px;
-    padding: 2px 5px;
-    margin: 3px;
-    font: 15px sans-serif;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin: 5px;
+    font: 22px sans-serif;
   }
   label {
     padding-left: 0;
@@ -90,8 +93,7 @@
   #timer {
     display: none;
     background: #f41;
-    height: 10px;
-    margin: -10px 0;
+    height: 15px;
   }
   .timer-animation {
     animation: timer 10s linear;
@@ -113,12 +115,12 @@
     }
   }
   #pont {
-    margin-left: 50px;
+    margin-left: 75px;
   }
   h1 {
     text-align: center;
     padding: 0;
-    margin: 5px;
+    margin: 8px;
     margin-bottom: 0;
   }
   h2 {
@@ -126,17 +128,17 @@
   }
   .avatar {
     border-radius: 30%;
-    box-shadow: 0 5px 20px #0004;
+    box-shadow: 0 8px 30px #0004;
     cursor: pointer;
   }
   .avatar.selected {
-    outline: 2px solid white;
+    outline: 3px solid white;
   }
   .avatar.text {
     display: inline-flex;
-    font-size: 70px;
-    width: 100px;
-    height: 100px;
+    font-size: 100px;
+    width: 150px;
+    height: 150px;
     vertical-align: top;
     justify-content: center;
     align-items: center;
@@ -145,69 +147,70 @@
     box-shadow: none;
   }
   #avatar {
-    border: 2px solid white;
+    border: 3px solid white;
   }
   .star-icon {
-    width: 25px;
+    width: 35px;
     vertical-align: text-bottom;
-    margin-left: -5px;
+    margin-left: -8px;
   }
   .bp-header {
     position: relative;
     display: inline-block;
-    margin-top: -20px;
+    margin-top: -30px;
     z-index: 1;
   }
   .bp-progress {
     position: absolute;
     background: linear-gradient(to bottom, #fffa 0%, #fff8 10%, #fff4 90%, #0004 100%);
-    border-radius: 0 10px 10px 0;
-    padding: 5px;
+    border-radius: 0 15px 15px 0;
+    padding: 8px;
     top: 30%;
     left: 100%;
-    width: 50px;
+    width: 75px;
     cursor: pointer;
   }
   .bp-bar-outside {
     display: block;
-    height: 5px;
-    border-radius: 5px 0;
-    margin: 2px;
+    height: 8px;
+    border-radius: 8px 0;
+    margin: 3px;
     border: 1px solid #0004;
     overflow: hidden;
   }
   .bp-bar-inside {
-    height: 5px;
+    height: 8px;
     background: linear-gradient(to right, #ff0 0%, #f40 100%);
   }
   #battlepassoptions .avatar,
   #lockeroptions .avatar {
-    margin: 4px;
+    margin: 6px;
   }
   #kedvenc {
     cursor: pointer;
     position: absolute;
-    border-radius: 10px 0 0 10px;
-    outline: 1px solid white;
+    border-radius: 15px 0 0 15px;
+    outline: 1.5px solid white;
     top: 30%;
-    left: -40px;
+    left: -60px;
     z-index: 0;
   }
   .bg-header {
     .icons {
-      font-size: 30px;
+      font-size: 45px;
       display: flex;
       justify-content: space-around;
       i {
         color: #0008;
         display: block;
         cursor: pointer;
-        border-radius: 0 0 10px 10px;
-        padding: 5px;
+        border-radius: 0 0 15px 15px;
+        padding: 8px;
       }
       i.selected {
         background-color: var(--border-color);
         color: var(--bg-color);
+        margin-top: -0.5px; /* avoid super thin gap */
       }
     }
   }
@@ -216,7 +219,7 @@
     margin: 0;
   }
   .mission-list:not(:last-child) {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
   .mission-list li {
     list-style-type: none;
@@ -225,44 +228,44 @@
     align-items: center;
     border: 1px solid var(--border-color);
     background-color: #fff4;
-    border-radius: 5px;
-    padding: 2px 5px;
-    margin: 3px;
-    font: 15px sans-serif;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin: 5px;
+    font: 20px sans-serif;
   }
   .mission-text {
     flex: auto;
   }
   .mission-reward {
-    font-size: 10px;
+    font-size: 15px;
     white-space: nowrap;
-    margin-left: 15px;
+    margin-left: 20px;
   }
   .mission-progress {
     display: flex;
     justify-content: space-between;
-    margin: 20px 20px 0 20px;
+    margin: 30px 30px 0 30px;
     background: linear-gradient(
-      transparent calc(50% - 1px),
-      black calc(50% - 1px),
-      black calc(50% + 1px),
-      transparent calc(50% + 1px)
+      transparent calc(50% - 1.5px),
+      black calc(50% - 1.5px),
+      black calc(50% + 1.5px),
+      transparent calc(50% + 1.5px)
     );
     i {
       background: var(--bg-color);
       position: relative;
       b {
         background-color: #fff4;
-        border-radius: 5px;
-        padding: 2px 5px;
-        font: 10px sans-serif;
+        border-radius: 8px;
+        padding: 3px 8px;
+        font: 15px sans-serif;
         position: absolute;
         bottom: 105%;
         white-space: nowrap;
         transform: translateX(-50%);
         left: 50%;
         img {
-          width: 15px;
+          width: 20px;
         }
       }
       b.done {
@@ -274,8 +277,8 @@
     small {
       display: block;
       text-align: center;
-      font-size: 13px;
-      margin-bottom: 10px;
+      font-size: 20px;
+      margin-bottom: 15px;
     }
   }
   #locker,
@@ -286,7 +289,7 @@
   }
   .floater {
     position: absolute;
-    font-size: 24px;
+    font-size: 36px;
     font-weight: bold;
     pointer-events: none;
     animation: floatUp 1s ease-out forwards;
@@ -297,7 +300,7 @@
       opacity: 1;
     }
     100% {
-      transform: translateY(-50px);
+      transform: translateY(-75px);
       opacity: 0;
     }
   }
@@ -311,18 +314,18 @@
         25 <img src="images/star-outlined.webp" class="star-icon" />
         <div class="bp-bar-outside"><div class="bp-bar-inside" style="width: 90%"></div></div>
       </div>
-      <img src="images/space-animals-sana/snail-m.jpeg" width="100" id="avatar" class="avatar" />
-      <img src="images/furballs-sana/Samantha.jpg" width="40" id="kedvenc" />
+      <img src="images/space-animals-sana/snail-m.jpeg" width="150" id="avatar" class="avatar" />
+      <img src="images/furballs-sana/Samantha.jpg" width="60" id="kedvenc" />
     </div>
   </div>
   <p>
     <a href="https://github.com/darabos/mennyi">
-      <img src="https://github.com/favicon.ico" width="20" style="float: right"
+      <img src="https://github.com/favicon.ico" width="30" style="float: right"
     /></a>
   </p>
 
-  <p>
-    Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any" />
+  <div>
+    <div>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any" /></div>
     <select id="nyelv" onchange="languageChanged()"></select>
     <label><input type="checkbox" id="osszeadas" checked disabled />Összeadás</label>
     <label><input type="checkbox" id="kivonas" />Kivonás</label>
@@ -332,9 +335,9 @@
     <label><input type="checkbox" id="idore" />Időre</label>
     <label><input type="number" id="szint" value="2" min="2" />szám</label>
     <label><input type="checkbox" id="szintlepes" checked />Szintlépés</label>
-  </p>
+  </div>
 
-  <p id="timer"></p>
+  <div id="timer"></div>
   <p id="kerdes"></p>
   <p><button onclick="start()">Start ⏎</button><span id="hangszoro">🔊</span></p>
   <p>

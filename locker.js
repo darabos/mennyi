@@ -15,7 +15,7 @@ function showLocker() {
     showLockerOptions(
       lockerData.kutatok,
       lockerData.selectedKutato,
-      '<img src="images/space-animals-sana/CHOICE.jpeg" data-choice="CHOICE" width="100" class="avatar SELECTED" />'
+      '<img src="images/space-animals-sana/CHOICE.jpeg" data-choice="CHOICE" width="150" class="avatar SELECTED" />'
     );
     lockeroptions.querySelectorAll('.avatar').forEach(avatar => {
       avatar.onclick = function () {
@@ -30,7 +30,7 @@ function showLocker() {
     showLockerOptions(
       lockerData.kedvencek,
       lockerData.selectedKedvenc,
-      '<img src="images/furballs-sana/CHOICE.jpg" data-choice="CHOICE" width="100" class="avatar SELECTED" />'
+      '<img src="images/furballs-sana/CHOICE.jpg" data-choice="CHOICE" width="150" class="avatar SELECTED" />'
     );
     lockeroptions.innerHTML += `<span class="avatar text none ${
       lockerData.selectedKedvenc === 'none' ? 'selected' : ''
