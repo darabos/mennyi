@@ -164,4 +164,3 @@ function showMissions() {
 document.querySelectorAll('.ti-flag').forEach(e => {
   e.onclick = showMissions;
 });
-showMissions();

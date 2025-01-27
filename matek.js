@@ -114,9 +114,7 @@ szorzas.onchange = keepOne;
 for (const l in LANGUAGES) {
   nyelv.innerHTML += `<option value="${l}">${l}</option>`;
 }
-let level = 2;
 let answer = '';
-szint.textContent = level;
 function newTask(level) {
   const l = LANGUAGES[nyelv.value];
   let answer, last, mult, lastsign;
@@ -182,7 +180,7 @@ function start(alsoSay) {
   if (task) {
     clearTimeout(task.timeout);
   }
-  task = newTask(level);
+  task = newTask(parseInt(szint.value));
   kerdes.innerHTML = irasbeli.checked ? task.math.join('') : '';
   console.log(task.text);
   answer = '';
@@ -234,24 +232,22 @@ valasz.onkeypress = function (e) {
     answer = answer + e.key;
     const correct = task.answer.toString();
     if (answer === correct) {
-      let score = level;
+      let score = parseInt(szint.value);
       if (szorzas.checked) score *= 2;
       if (ketjegyu.checked) score *= 5;
       if (idore.checked) score *= 10;
       if (!irasbeli.checked) score *= 10;
-      pont.textContent = parseInt(pont.textContent) + score;
       valasz.style.backgroundColor = '#6f4';
       if (szintlepes.checked) {
-        level += 1;
-        szint.textContent = level;
+        szint.value = parseInt(szint.value) + 1;
       }
       say(correct + ', ' + pickRandom(LANGUAGES[nyelv.value].yes));
+      xpEvent(score);
       missionEvent({ correct: true, ...task });
     } else if (!correct.startsWith(answer)) {
       valasz.style.backgroundColor = '#f64';
-      if (szintlepes.checked && level > 2) {
-        level -= 1;
-        szint.textContent = level;
+      if (szintlepes.checked && parseInt(szint.value) > 2) {
+        szint.value = parseInt(szint.value) - 1;
       }
       sayRandom(LANGUAGES[nyelv.value].no);
       missionEvent({ correct: false, ...task });

@@ -1,4 +1,5 @@
 const bpData = JSON.parse(localStorage.getItem('battlepass') || '{}');
+bpData.xp ||= 0;
 localStorage.setItem('battlepass', JSON.stringify(bpData));
 
 const ALL_KEDVENC = `
@@ -109,6 +110,11 @@ function showBattlePass() {
       return `<span class="avatar text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)" ></span>`;
     }),
   ].join('');
+}
+
+function xpEvent(xp) {
+  bpData.xp += xp;
+  localStorage.setItem('battlepass', JSON.stringify(bpData));
 }
 
 bpstatus.onclick = showBattlePass;
