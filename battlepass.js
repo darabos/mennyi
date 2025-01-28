@@ -8,7 +8,9 @@ function getSeasonEnd() {
   return date.toLocaleDateString('hu');
 }
 const seasonEnd = getSeasonEnd();
-bpData[seasonEnd] ??= { xp: 0 };
+bpData[seasonEnd] ??= {};
+bpData[seasonEnd].xp ??= 0;
+bpData[seasonEnd].stars ??= 0;
 localStorage.setItem('battlepass', JSON.stringify(bpData));
 
 const ALL_KEDVENC = `
@@ -140,6 +142,7 @@ function xpEvent(xp) {
   bpData[seasonEnd].xp += xp;
   while (bpData[seasonEnd].xp > 100000) {
     bpData[seasonEnd].xp -= 100000;
+    bpData[seasonEnd].stars += 1;
     floatOff(bpstatus, '<img src="images/star-outlined.webp" class="star-icon" />');
   }
   localStorage.setItem('battlepass', JSON.stringify(bpData));
@@ -148,6 +151,9 @@ function xpEvent(xp) {
 function showXp() {
   document.querySelectorAll('.bp-bar-inside').forEach(e => {
     e.style.width = `${bpData[seasonEnd].xp / 1000}%`;
+  });
+  document.querySelectorAll('.bp-stars').forEach(e => {
+    e.textContent = bpData[seasonEnd].stars;
   });
 }
 showXp();

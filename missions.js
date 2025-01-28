@@ -32,7 +32,7 @@ function getDailyMissions() {
 function getWeeklyMissions() {
   const missions = [];
   missions.done = 0;
-  for (let i = weeklyNum * 1001; missions.length < 3; ++i) {
+  for (let i = weeklyNum * 1001; missions.length < 5; ++i) {
     if (weeklyData[i]?.done) {
       missions.done += 1;
     } else {
