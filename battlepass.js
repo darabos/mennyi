@@ -11,6 +11,7 @@ const seasonEnd = getSeasonEnd();
 bpData[seasonEnd] ??= {};
 bpData[seasonEnd].xp ??= 0;
 bpData[seasonEnd].stars ??= 0;
+bpData[seasonEnd].unspentStars ??= 0;
 localStorage.setItem('battlepass', JSON.stringify(bpData));
 
 const ALL_KEDVENC = `
@@ -143,6 +144,7 @@ function xpEvent(xp) {
   while (bpData[seasonEnd].xp > 100000) {
     bpData[seasonEnd].xp -= 100000;
     bpData[seasonEnd].stars += 1;
+    bpData[seasonEnd].unspentStars += 1;
     floatOff(bpstatus, '<img src="images/star-outlined.webp" class="star-icon" />');
   }
   localStorage.setItem('battlepass', JSON.stringify(bpData));
@@ -155,6 +157,16 @@ function showXp() {
   document.querySelectorAll('.bp-stars').forEach(e => {
     e.textContent = bpData[seasonEnd].stars;
   });
+  document.querySelectorAll('.bp-unspent-stars').forEach(e => {
+    const s = bpData[seasonEnd].unspentStars;
+    e.style.visibility = s ? 'visible' : 'hidden';
+    e.textContent = s;
+  });
+  document.querySelectorAll('.bp-unspent-stars-big').forEach(e => {
+    const s = bpData[seasonEnd].unspentStars;
+    const star = '<img src="images/star-outlined.webp" class="star-icon" />';
+    e.innerHTML = Array.from({ length: s }, () => star).join('');
+  });
 }
 showXp();
 
@@ -162,3 +174,4 @@ bpstatus.onclick = showBattlePass;
 document.querySelectorAll('.ti-stars').forEach(e => {
   e.onclick = showBattlePass;
 });
+showBattlePass();

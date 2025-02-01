@@ -31,6 +31,7 @@
   #valasz {
     padding: 8px 15px;
     width: 100%;
+    border-radius: 5px;
   }
   #hangszoro {
     font-size: 200%;
@@ -38,7 +39,7 @@
     display: none;
     animation: pulse 1s infinite ease;
   }
-  button {
+  #startbutton {
     font-size: 100%;
     padding: 15px 45px;
     border-radius: 15px;
@@ -169,6 +170,11 @@
     left: 100%;
     width: 75px;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+  .bp-star-count {
+    white-space: nowrap;
   }
   .bp-bar-outside {
     display: block;
@@ -192,7 +198,7 @@
     border-radius: 15px 0 0 15px;
     outline: 1.5px solid white;
     top: 30%;
-    left: -60px;
+    left: -65px;
     z-index: 0;
   }
   .bg-header {
@@ -304,6 +310,21 @@
       opacity: 0;
     }
   }
+  .notification {
+    /* https://stackoverflow.com/a/71440299/3318517 */
+    position: absolute;
+    right: -0.7em;
+    top: -0.7em;
+    min-width: 1.6em;
+    height: 1.6em;
+    border-radius: 0.8em;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    color: white;
+  }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.1/dist/tabler-icons.min.css" />
 
@@ -311,11 +332,15 @@
   <div style="text-align: center">
     <div class="bp-header">
       <div class="bp-progress" id="bpstatus">
-        <span class="bp-stars">25</span> <img src="images/star-outlined.webp" class="star-icon" />
+        <div class="bp-star-count">
+          <span class="bp-stars">25</span>
+          <img src="images/star-outlined.webp" class="star-icon" />
+        </div>
         <div class="bp-bar-outside"><div class="bp-bar-inside" style="width: 90%"></div></div>
+        <div class="notification bp-unspent-stars" role="status">3</div>
       </div>
       <img src="images/space-animals-sana/snail-m.jpeg" width="150" id="avatar" class="avatar" />
-      <img src="images/furballs-sana/Samantha.jpg" width="60" id="kedvenc" />
+      <img src="images/furballs-sana/Samantha.jpg" width="65" id="kedvenc" />
     </div>
   </div>
   <p>
@@ -339,7 +364,7 @@
 
   <div id="timer"></div>
   <p id="kerdes"></p>
-  <p><button onclick="start()">Start ⏎</button><span id="hangszoro">🔊</span></p>
+  <p><button id="startbutton">Start ⏎</button><span id="hangszoro">🔊</span></p>
   <p>
     <input type="number" id="valasz" />
   </p>
@@ -373,6 +398,7 @@
     </div>
     <h1>Battle Pass</h1>
   </div>
+  <p class="bp-unspent-stars-big"></p>
   <div id="battlepassoptions"></div>
 </div>
 
