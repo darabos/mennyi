@@ -4,14 +4,16 @@ function getSeasonEnd() {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
-  const date = new Date(year, month + (month % 2), 0);
-  return date.toLocaleDateString('hu');
+  return new Date(year, month + (month % 2), 0);
 }
 const seasonEnd = getSeasonEnd();
-bpData[seasonEnd] ??= {};
-bpData[seasonEnd].xp ??= 0;
-bpData[seasonEnd].stars ??= 0;
-bpData[seasonEnd].unspentStars ??= 0;
+const seasonStr = seasonEnd.toLocaleDateString('hu');
+bpData[seasonStr] ??= {};
+const seasonData = bpData[seasonStr];
+seasonData.xp ??= 0;
+seasonData.stars ??= 0;
+seasonData.unspentStars ??= 0;
+const seasonNum = dateNum(seasonEnd);
 localStorage.setItem('battlepass', JSON.stringify(bpData));
 
 const ALL_KEDVENC = `
@@ -103,25 +105,82 @@ zebra-m
 `
   .trim()
   .split('\n');
+const ALL_SZINEK = Object.keys(SZINEK);
+ALL_SZINEK.sort();
 
 function showBattlePass() {
   document.querySelectorAll('.bg').forEach(e => {
     e.style.display = 'none';
   });
-  battlepass.style.display = 'block';
-  const options = ALL_KUTATO;
-  battlepassoptions.innerHTML = [
-    ...ALL_KUTATO.map(opt => {
-      return `<img src="images/space-animals-sana/${opt}.jpeg" width="150" class="avatar" />`;
-    }),
-    ...ALL_KEDVENC.map(opt => {
-      return `<img src="images/furballs-sana/${opt}.jpg" width="150" class="avatar" />`;
-    }),
-    ...Object.keys(SZINEK).map(sz => {
-      const [c1, c2] = SZINEK[sz].split(' ');
-      return `<span class="avatar text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)" ></span>`;
-    }),
-  ].join('');
+  battlepasspage.style.display = 'block';
+  const bp = getBattlePassContents();
+  const levelsHTML = levels =>
+    levels
+      .map(level => {
+        const inside = level.map(bpEntry).join('<i class="ti ti-chevron-right"></i>');
+        return `<div class="bp-level">${inside}</div>`;
+      })
+      .join('');
+  const levels1 = levelsHTML(bp.levels.slice(0, 3));
+  const levels2 = levelsHTML(bp.levels.slice(3, 6));
+  const levels3 = levelsHTML(bp.levels.slice(6));
+  const star = '<img src="images/star-outlined.webp" class="star-icon" />';
+  const unspentStars = 0; //seasonData.unspentStars;
+  const unspent = unspentStars
+    ? Array.from({ length: unspentStars }, () => star).join(' ')
+    : 'Gyűjts csillagokat! Nézd meg a mai küldetéseket!';
+  battlepasspagecontent.innerHTML = `
+    <h1>Battle Pass</h1>
+    <small>${seasonStr}-ig</small>
+    <div class="bordered">
+      <div class="header"><div class="header-inside">Elköltendő csillagok</div></div>
+      ${unspent}
+    </div>
+    ${levels1}
+    <h3>10 ${star} után</h3>
+    ${levels2}
+    <h3>20 ${star} után</h3>
+    ${levels3}
+    `;
+}
+
+function bpEntry(e) {
+  if (e.kind == 'kutato') {
+    return `<img src="images/space-animals-sana/${e.name}.jpeg" width="150" class="avatar" />`;
+  } else if (e.kind == 'kedvenc') {
+    return `<img src="images/furballs-sana/${e.name}.jpg" width="150" class="avatar" />`;
+  } else if (e.kind == 'szin') {
+    const [c1, c2] = SZINEK[e.name].split(' ');
+    return `<span class="avatar text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)" ></span>`;
+  }
+}
+
+function getBattlePassContents() {
+  const rng = splitmix32(seasonNum);
+  const bp = { levels: [] };
+  for (let level = 0; level < 9; ++level) {
+    const row = [];
+    while (true) {
+      const choice = ALL_SZINEK[rng(ALL_SZINEK.length)];
+      if (bp.levels.findIndex(level => level.findIndex(row => row.name === choice) !== -1) !== -1) continue;
+      row.push({ kind: 'szin', name: choice, level, rank: 0 });
+      break;
+    }
+    while (true) {
+      const choice = ALL_KEDVENC[rng(ALL_KEDVENC.length)];
+      if (bp.levels.findIndex(level => level.findIndex(row => row.name === choice) !== -1) !== -1) continue;
+      row.push({ kind: 'kedvenc', name: choice, level, rank: 1 });
+      break;
+    }
+    while (true) {
+      const choice = ALL_KUTATO[rng(ALL_KUTATO.length)];
+      if (bp.levels.findIndex(level => level.findIndex(row => row.name === choice) !== -1) !== -1) continue;
+      row.push({ kind: 'kutato', name: choice, level, rank: 2 });
+      break;
+    }
+    bp.levels.push(row);
+  }
+  return bp;
 }
 
 function floatOff(element, msg) {
@@ -140,11 +199,11 @@ function floatOff(element, msg) {
 
 function xpEvent(xp) {
   floatOff(valasz, `+${xp} XP`);
-  bpData[seasonEnd].xp += xp;
-  while (bpData[seasonEnd].xp > 100000) {
-    bpData[seasonEnd].xp -= 100000;
-    bpData[seasonEnd].stars += 1;
-    bpData[seasonEnd].unspentStars += 1;
+  seasonData.xp += xp;
+  while (seasonData.xp > 100000) {
+    seasonData.xp -= 100000;
+    seasonData.stars += 1;
+    seasonData.unspentStars += 1;
     floatOff(bpstatus, '<img src="images/star-outlined.webp" class="star-icon" />');
   }
   localStorage.setItem('battlepass', JSON.stringify(bpData));
@@ -152,20 +211,15 @@ function xpEvent(xp) {
 }
 function showXp() {
   document.querySelectorAll('.bp-bar-inside').forEach(e => {
-    e.style.width = `${bpData[seasonEnd].xp / 1000}%`;
+    e.style.width = `${seasonData.xp / 1000}%`;
   });
   document.querySelectorAll('.bp-stars').forEach(e => {
-    e.textContent = bpData[seasonEnd].stars;
+    e.textContent = seasonData.stars;
   });
   document.querySelectorAll('.bp-unspent-stars').forEach(e => {
-    const s = bpData[seasonEnd].unspentStars;
+    const s = seasonData.unspentStars;
     e.style.visibility = s ? 'visible' : 'hidden';
     e.textContent = s;
-  });
-  document.querySelectorAll('.bp-unspent-stars-big').forEach(e => {
-    const s = bpData[seasonEnd].unspentStars;
-    const star = '<img src="images/star-outlined.webp" class="star-icon" />';
-    e.innerHTML = Array.from({ length: s }, () => star).join('');
   });
 }
 showXp();

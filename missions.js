@@ -141,7 +141,7 @@ function showMissions() {
       ? `<i class="ti ti-circle-check-filled"><b class="done">${reward}</b></i>`
       : `<i class="ti ti-circle"><b>${reward}</b></i>`;
   }).join('');
-  missionlist.innerHTML = `
+  missionpagecontent.innerHTML = `
     <h1>Napi küldetések</h1>
     <small>${today}</small>
     <div class="mission-progress">

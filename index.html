@@ -128,7 +128,7 @@
     margin: 0;
   }
   .avatar {
-    border-radius: 30%;
+    border-radius: 40px;
     box-shadow: 0 8px 30px #0004;
     cursor: pointer;
   }
@@ -152,8 +152,9 @@
   }
   .star-icon {
     width: 35px;
-    vertical-align: text-bottom;
+    vertical-align: text-top;
     margin-left: -8px;
+    margin-top: -3px;
   }
   .bp-header {
     position: relative;
@@ -188,7 +189,7 @@
     height: 8px;
     background: linear-gradient(to left, #f40 0%, #ff0 50px);
   }
-  #battlepassoptions .avatar,
+  #battlepasspage .avatar,
   #lockeroptions .avatar {
     margin: 6px;
   }
@@ -279,18 +280,50 @@
       }
     }
   }
-  #missionpage {
-    small {
-      display: block;
-      text-align: center;
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
+  #battlepasspage small,
+  #missionpage small {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  #battlepasspage h3 {
+    font-weight: normal;
+    text-align: center;
+  }
+  .bp-level {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .bordered {
+    border: 1px solid var(--border-color);
+    padding: 20px 30px;
+    border-radius: 8px;
+    position: relative;
+    margin: 20px 0;
+  }
+  .bordered .header {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+  .bordered .header-inside {
+    display: inline-block;
+    background-color: var(--bg-color);
+    padding: 0 10px;
+    font-size: 15px;
+  }
+  #battlepasspage .bordered {
+    font-size: 15px;
+    text-align: center;
   }
   #locker,
   #shop,
   #missionpage,
-  #battlepass {
+  #battlepasspage {
     display: none;
   }
   .floater {
@@ -313,8 +346,8 @@
   .notification {
     /* https://stackoverflow.com/a/71440299/3318517 */
     position: absolute;
-    right: -0.7em;
-    top: -0.7em;
+    right: -5px;
+    top: -5px;
     min-width: 1.6em;
     height: 1.6em;
     border-radius: 0.8em;
@@ -388,7 +421,7 @@
   <div id="lockeroptions"></div>
 </div>
 
-<div id="battlepass" class="bg">
+<div id="battlepasspage" class="bg">
   <div class="bg-header">
     <div class="icons">
       <i class="ti ti-home"></i>
@@ -396,10 +429,8 @@
       <i class="ti ti-flag"></i>
       <i class="ti ti-stars selected"></i>
     </div>
-    <h1>Battle Pass</h1>
   </div>
-  <p class="bp-unspent-stars-big"></p>
-  <div id="battlepassoptions"></div>
+  <div id="battlepasspagecontent"></div>
 </div>
 
 <div id="shop" class="bg">
@@ -425,11 +456,11 @@
       <i class="ti ti-stars"></i>
     </div>
   </div>
-  <div id="missionlist"></div>
+  <div id="missionpagecontent"></div>
 </div>
 
 <script src="matek.js"></script>
 <script src="locker.js"></script>
-<script src="battlepass.js"></script>
 <script src="missions.js"></script>
+<script src="battlepass.js"></script>
 <script src="shop.js"></script>
