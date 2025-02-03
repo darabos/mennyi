@@ -24,6 +24,9 @@ function getDailyMissions() {
       missions.done += 1;
     } else {
       const m = getMission(i, false);
+      if (missions.find(p => p.digits === m.digits && p.operation === m.operation && p.consecutive === m.consecutive)) {
+        continue;
+      }
       missions.push(m);
     }
   }
@@ -37,6 +40,9 @@ function getWeeklyMissions() {
       missions.done += 1;
     } else {
       const m = getMission(i, true);
+      if (missions.find(p => p.digits === m.digits && p.operation === m.operation && p.consecutive === m.consecutive)) {
+        continue;
+      }
       missions.push(m);
     }
   }
@@ -76,7 +82,11 @@ function getMission(num, weekly) {
       m.count *= 2;
     }
     m.operation = rng(3);
-    m.minLevel = rng(3) + 2;
+    if (OPERATIONS[m.operation] === 'szorzás' && m.digits === 2) {
+      m.minLevel = 2;
+    } else {
+      m.minLevel = rng(3) + 2;
+    }
     if (m.minLevel === 2) {
       m.text = `Csinálj ${m.count} ${jegyu}${OPERATIONS[m.operation]}t`;
     } else {
@@ -105,6 +115,19 @@ function missionEvent(e) {
       m.data.progress += 1;
       if (m.data.progress === m.count) {
         m.data.done = true;
+        xpEvent(m.reward, `${m.text} ${m.data.progress}/${m.count} +${m.reward} XP`);
+        if (m.weekly && weeklyMissions.done < 4) {
+          weeklyMissions.done += 1;
+          xpEvent(30000, `Heti küldetés teljesítve! +30,000 XP`);
+        } else if (m.weekly && weeklyMissions.done < 5) {
+          weeklyMissions.done += 1;
+          xpEvent(100000, `Összes heti küldetés teljesítve! +${STAR}`);
+        } else if (!m.weekly && dailyMissions.done < 3) {
+          dailyMissions.done += 1;
+          xpEvent(20000, `Napi küldetés teljesítve! +20,000 XP`);
+        }
+      } else {
+        xpEvent(0, `${m.text} ${m.data.progress}/${m.count}`);
       }
     } else if (m.consecutive) {
       m.data.progress = 0;

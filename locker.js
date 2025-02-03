@@ -3,8 +3,8 @@ lockerData.kutatok ??= ['snail-m', 'snail-f'];
 lockerData.selectedKutato ??= 'snail-f';
 lockerData.kedvencek ??= ['Samantha', 'Dennis'];
 lockerData.selectedKedvenc ??= 'none';
-lockerData.szinek ??= ['plain', 'snail'];
-lockerData.selectedSzinek ??= 'plain';
+lockerData.szinek ??= ['original', 'snail'];
+lockerData.selectedSzinek ??= 'original';
 localStorage.setItem('locker', JSON.stringify(lockerData));
 function showLocker() {
   document.querySelectorAll('.bg').forEach(e => {
@@ -86,7 +86,6 @@ const SZINEK = {
   spring: '#ae8 #e9b',
   faint: '#edc #fed',
 };
-lockerData.szinek = Object.keys(SZINEK);
 
 function showLockerOptions(options, selected, template) {
   options.sort();
@@ -97,7 +96,9 @@ function showLockerOptions(options, selected, template) {
 function applyLockerSettings() {
   avatar.src = `images/space-animals-sana/${lockerData.selectedKutato}.jpeg`;
   kedvenc.style.display = lockerData.selectedKedvenc !== 'none' ? 'block' : 'none';
-  kedvenc.src = `images/furballs-sana/${lockerData.selectedKedvenc}.jpg`;
+  if (lockerData.selectedKedvenc !== 'none') {
+    kedvenc.src = `images/furballs-sana/${lockerData.selectedKedvenc}.jpg`;
+  }
   const [c1, c2] = (SZINEK[lockerData.selectedSzinek] ?? SZINEK.original).split(' ');
   document.documentElement.style.cssText = `--border-color: ${c1}; --bg-color: ${c2}`;
 }

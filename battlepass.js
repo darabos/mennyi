@@ -141,6 +141,7 @@ function showBattlePass() {
   battlepasspagecontent.innerHTML = `
     <h1>Battle Pass</h1>
     <small>${seasonStr}-ig</small>
+    <h3>${seasonData.stars} ${STAR}</h3>
     <div class="bordered">
       <div class="header"><div class="header-inside">Elköltendő csillagok</div></div>
       ${unspent}
@@ -198,7 +199,7 @@ function bpEntry(e, prevDone) {
   const category = lockerFor(e.kind);
   const has = category.includes(e.name);
   const bought = seasonData.buys.includes(key);
-  const cls = has ? 'owned' : 'buyable' + (bought ? ' bought' : '');
+  const cls = (has ? 'owned' : 'buyable') + (bought ? ' bought' : '');
   const mark = bought ? STAR : has ? '<i class="ti ti-circle-check"></i>' : '';
   const decor = mark ? `<div class="decor">${mark}</div>` : '';
   let inside = '';
@@ -249,7 +250,9 @@ const bpKeys = Object.fromEntries(bpContents.levels.flat().map(e => [`${e.kind}-
 seasonData.buys = seasonData.buys.filter(e => bpKeys[e]);
 localStorage.setItem('battlepass', JSON.stringify(bpData));
 
-function floatOff(element, msg) {
+const floatQueue = [];
+
+function renderFloatOff(element, msg) {
   const floater = document.createElement('div');
   floater.classList.add('floater');
   floater.innerHTML = msg;
@@ -262,9 +265,24 @@ function floatOff(element, msg) {
   }, 1000);
   return floater;
 }
+function floatOff(element, msg) {
+  floatQueue.push({ element, msg });
+  if (floatQueue.length === 1) {
+    floatNext();
+  }
+}
+function floatNext() {
+  if (floatQueue.length === 0) return;
+  const { element, msg } = floatQueue[0];
+  renderFloatOff(element, msg);
+  setTimeout(() => {
+    floatQueue.shift();
+    floatNext();
+  }, 500);
+}
 
-function xpEvent(xp) {
-  floatOff(valasz, `+${xp} XP`);
+function xpEvent(xp, msg) {
+  floatOff(valasz, msg || `+${xp} XP`);
   seasonData.xp += xp;
   while (seasonData.xp > 100000) {
     seasonData.xp -= 100000;
@@ -293,4 +311,3 @@ bpstatus.onclick = showBattlePass;
 document.querySelectorAll('.ti-stars').forEach(e => {
   e.onclick = showBattlePass;
 });
-showBattlePass();
