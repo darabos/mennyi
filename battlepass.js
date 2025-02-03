@@ -107,6 +107,7 @@ zebra-m
   .split('\n');
 const ALL_SZINEK = Object.keys(SZINEK);
 ALL_SZINEK.sort();
+const STAR = '<img src="images/star-outlined.webp" class="star-icon" />';
 
 function showBattlePass() {
   document.querySelectorAll('.bg').forEach(e => {
@@ -121,14 +122,17 @@ function showBattlePass() {
         return `<div class="bp-level">${inside}</div>`;
       })
       .join('');
+  const unspentStars = seasonData.unspentStars;
+  const unspent = unspentStars
+    ? Array.from({ length: unspentStars }, () => STAR).join(' ')
+    : 'Gyűjts csillagokat! Nézd meg a mai küldetéseket!';
   const levels1 = levelsHTML(bp.levels.slice(0, 3));
   const levels2 = levelsHTML(bp.levels.slice(3, 6));
   const levels3 = levelsHTML(bp.levels.slice(6));
-  const star = '<img src="images/star-outlined.webp" class="star-icon" />';
-  const unspentStars = 0; //seasonData.unspentStars;
-  const unspent = unspentStars
-    ? Array.from({ length: unspentStars }, () => star).join(' ')
-    : 'Gyűjts csillagokat! Nézd meg a mai küldetéseket!';
+  const lockClosed = `<i class="ti ti-lock"></i>`;
+  const lockOpen = `<i class="ti ti-lock-open"></i>`;
+  const lock10 = seasonData.stars >= 10 ? lockOpen : lockClosed;
+  const lock20 = seasonData.stars >= 20 ? lockOpen : lockClosed;
   battlepasspagecontent.innerHTML = `
     <h1>Battle Pass</h1>
     <small>${seasonStr}-ig</small>
@@ -137,21 +141,27 @@ function showBattlePass() {
       ${unspent}
     </div>
     ${levels1}
-    <h3>10 ${star} után</h3>
+    <h3>${lock10} ${Math.min(10, seasonData.stars)}/10 ${STAR}</h3>
     ${levels2}
-    <h3>20 ${star} után</h3>
+    <h3>${lock20} ${Math.min(20, seasonData.stars)}/20 ${STAR}</h3>
     ${levels3}
     `;
 }
 
 function bpEntry(e) {
+  const category =
+    e.kind === 'szin' ? lockerData.szinek : e.kind === 'kedvenc' ? lockerData.kedvencek : lockerData.kutatok;
+  const has = category.includes(e.name);
+  const cls = has ? 'owned' : '';
+  // const decor = cls === 'owned' ? `<div class="decor">${STAR}</div>` : '';
+  const decor = cls === 'owned' ? `<div class="decor"><i class="ti ti-circle-check"></i></div>` : '';
   if (e.kind == 'kutato') {
-    return `<img src="images/space-animals-sana/${e.name}.jpeg" width="150" class="avatar" />`;
+    return `<div class="avatar ${cls}"><img src="images/space-animals-sana/${e.name}.jpeg" width="150" />${decor}</div>`;
   } else if (e.kind == 'kedvenc') {
-    return `<img src="images/furballs-sana/${e.name}.jpg" width="150" class="avatar" />`;
+    return `<div class="avatar ${cls}"><img src="images/furballs-sana/${e.name}.jpg" width="150" />${decor}</div>`;
   } else if (e.kind == 'szin') {
     const [c1, c2] = SZINEK[e.name].split(' ');
-    return `<span class="avatar text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)" ></span>`;
+    return `<div class="avatar ${cls}"><div class="text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)"></div>${decor}</div>`;
   }
 }
 
@@ -204,7 +214,7 @@ function xpEvent(xp) {
     seasonData.xp -= 100000;
     seasonData.stars += 1;
     seasonData.unspentStars += 1;
-    floatOff(bpstatus, '<img src="images/star-outlined.webp" class="star-icon" />');
+    floatOff(bpstatus, STAR);
   }
   localStorage.setItem('battlepass', JSON.stringify(bpData));
   showXp();

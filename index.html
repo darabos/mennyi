@@ -14,12 +14,13 @@
     font-size: 100%;
     width: 300px;
   }
+  input[type='radio'],
   input[type='checkbox'] {
     zoom: 1.5;
   }
   #szint {
     font: 22px sans-serif;
-    width: 35px;
+    width: 50px;
     border: 0;
     background: none;
     text-align: right;
@@ -128,13 +129,21 @@
     margin: 0;
   }
   .avatar {
+    position: relative;
     border-radius: 40px;
     box-shadow: 0 8px 30px #0004;
     cursor: pointer;
+    overflow: hidden;
+    transition: box-shadow 0.5s, transform 0.5s;
+  }
+  .avatar:hover:not(.owned) {
+    box-shadow: 0 8px 60px #0008;
+    transform: translateY(-5px) scale(1.05);
   }
   .avatar.selected {
     outline: 3px solid white;
   }
+  .avatar .text,
   .avatar.text {
     display: inline-flex;
     font-size: 100px;
@@ -147,14 +156,22 @@
   .avatar.none {
     box-shadow: none;
   }
+  .avatar.owned {
+    box-shadow: none;
+  }
+  .avatar.owned > .text,
+  .avatar.owned > img {
+    filter: brightness(75%);
+  }
   #avatar {
     border: 3px solid white;
   }
   .star-icon {
     width: 35px;
-    vertical-align: text-top;
+    vertical-align: baseline;
     margin-left: -8px;
     margin-top: -3px;
+    margin-bottom: -3px;
   }
   .bp-header {
     position: relative;
@@ -357,6 +374,15 @@
     align-items: center;
     font-size: 10px;
     color: white;
+  }
+  .decor {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+  .decor .ti {
+    background: var(--bg-color);
+    border-radius: 100%;
   }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.1/dist/tabler-icons.min.css" />
