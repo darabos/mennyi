@@ -134,12 +134,13 @@
     box-shadow: 0 8px 30px #0004;
     cursor: pointer;
     overflow: hidden;
-    transition: box-shadow 0.5s, transform 0.5s;
+    transition: box-shadow 0.4s, transform 0.4s;
   }
   .avatar:hover:not(.owned) {
     box-shadow: 0 8px 60px #0008;
-    transform: translateY(-5px) scale(1.05);
+    transform: translateY(-4px) scale(1.04);
   }
+  .avatar.bought,
   .avatar.selected {
     outline: 3px solid white;
   }
@@ -158,6 +159,7 @@
   }
   .avatar.owned {
     box-shadow: none;
+    cursor: default;
   }
   .avatar.owned > .text,
   .avatar.owned > img {
@@ -383,6 +385,23 @@
   .decor .ti {
     background: var(--bg-color);
     border-radius: 100%;
+  }
+  .avatar-holder {
+    position: relative;
+  }
+  .buy-popup {
+    position: absolute;
+    background: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 10px 20px;
+    bottom: calc(100% + 10px);
+    white-space: nowrap;
+    display: none;
+    cursor: pointer;
+  }
+  .avatar-holder.buyable:focus .buy-popup {
+    display: block;
   }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.1/dist/tabler-icons.min.css" />

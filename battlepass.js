@@ -12,7 +12,7 @@ bpData[seasonStr] ??= {};
 const seasonData = bpData[seasonStr];
 seasonData.xp ??= 0;
 seasonData.stars ??= 0;
-seasonData.unspentStars ??= 0;
+seasonData.buys ??= [];
 const seasonNum = dateNum(seasonEnd);
 localStorage.setItem('battlepass', JSON.stringify(bpData));
 
@@ -114,7 +114,6 @@ function showBattlePass() {
     e.style.display = 'none';
   });
   battlepasspage.style.display = 'block';
-  const bp = getBattlePassContents();
   const levelsHTML = levels =>
     levels
       .map(level => {
@@ -122,13 +121,13 @@ function showBattlePass() {
         return `<div class="bp-level">${inside}</div>`;
       })
       .join('');
-  const unspentStars = seasonData.unspentStars;
+  const unspentStars = seasonData.stars - seasonData.buys.length;
   const unspent = unspentStars
     ? Array.from({ length: unspentStars }, () => STAR).join(' ')
     : 'Gyűjts csillagokat! Nézd meg a mai küldetéseket!';
-  const levels1 = levelsHTML(bp.levels.slice(0, 3));
-  const levels2 = levelsHTML(bp.levels.slice(3, 6));
-  const levels3 = levelsHTML(bp.levels.slice(6));
+  const levels1 = levelsHTML(bpContents.levels.slice(0, 3));
+  const levels2 = levelsHTML(bpContents.levels.slice(3, 6));
+  const levels3 = levelsHTML(bpContents.levels.slice(6));
   const lockClosed = `<i class="ti ti-lock"></i>`;
   const lockOpen = `<i class="ti ti-lock-open"></i>`;
   const lock10 = seasonData.stars >= 10 ? lockOpen : lockClosed;
@@ -146,23 +145,56 @@ function showBattlePass() {
     <h3>${lock20} ${Math.min(20, seasonData.stars)}/20 ${STAR}</h3>
     ${levels3}
     `;
+  document.querySelectorAll('.buy-popup').forEach(e => {
+    e.onclick = () => {
+      const stars = Math.min(1, seasonData.stars - seasonData.buys.length);
+      if (stars === 0) return;
+      const key = e.dataset.key;
+      bpContents.levels.flat().forEach(e => {
+        if (`${e.kind}-${e.name}` === key) {
+          seasonData.buys.push(key);
+          localStorage.setItem('battlepass', JSON.stringify(bpData));
+          const category = lockerFor(e.kind);
+          category.push(e.name);
+          localStorage.setItem('locker', JSON.stringify(lockerData));
+          showBattlePass();
+          showXp();
+        }
+      });
+    };
+  });
+}
+
+function lockerFor(kind) {
+  if (kind === 'szin') {
+    return lockerData.szinek;
+  } else if (kind === 'kedvenc') {
+    return lockerData.kedvencek;
+  } else if (kind === 'kutato') {
+    return lockerData.kutatok;
+  }
 }
 
 function bpEntry(e) {
-  const category =
-    e.kind === 'szin' ? lockerData.szinek : e.kind === 'kedvenc' ? lockerData.kedvencek : lockerData.kutatok;
+  const key = `${e.kind}-${e.name}`;
+  const category = lockerFor(e.kind);
   const has = category.includes(e.name);
-  const cls = has ? 'owned' : '';
-  // const decor = cls === 'owned' ? `<div class="decor">${STAR}</div>` : '';
-  const decor = cls === 'owned' ? `<div class="decor"><i class="ti ti-circle-check"></i></div>` : '';
+  const bought = seasonData.buys.includes(key);
+  const cls = has ? 'owned' : 'buyable' + (bought ? ' bought' : '');
+  const mark = bought ? STAR : has ? '<i class="ti ti-circle-check"></i>' : '';
+  const decor = mark ? `<div class="decor">${mark}</div>` : '';
+  let inside = '';
   if (e.kind == 'kutato') {
-    return `<div class="avatar ${cls}"><img src="images/space-animals-sana/${e.name}.jpeg" width="150" />${decor}</div>`;
+    inside = `<img src="images/space-animals-sana/${e.name}.jpeg" width="150" />`;
   } else if (e.kind == 'kedvenc') {
-    return `<div class="avatar ${cls}"><img src="images/furballs-sana/${e.name}.jpg" width="150" />${decor}</div>`;
+    inside = `<img src="images/furballs-sana/${e.name}.jpg" width="150" />`;
   } else if (e.kind == 'szin') {
     const [c1, c2] = SZINEK[e.name].split(' ');
-    return `<div class="avatar ${cls}"><div class="text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)"></div>${decor}</div>`;
+    inside = `<div class="text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)"></div>`;
   }
+  const stars = Math.min(1, seasonData.stars - seasonData.buys.length);
+  const buyPopup = `<div class="buy-popup" data-key="${key}">${stars}/1 ${STAR} ${stars ? 'Kérem!' : ''}</div>`;
+  return `<div class="avatar-holder ${cls}" tabindex="0">${buyPopup}<div class="avatar ${cls}">${inside}${decor}</div></div>`;
 }
 
 function getBattlePassContents() {
@@ -192,6 +224,10 @@ function getBattlePassContents() {
   }
   return bp;
 }
+const bpContents = getBattlePassContents();
+const bpKeys = Object.fromEntries(bpContents.levels.flat().map(e => [`${e.kind}-${e.name}`, e]));
+seasonData.buys = seasonData.buys.filter(e => bpKeys[e]);
+localStorage.setItem('battlepass', JSON.stringify(bpData));
 
 function floatOff(element, msg) {
   const floater = document.createElement('div');
@@ -213,7 +249,6 @@ function xpEvent(xp) {
   while (seasonData.xp > 100000) {
     seasonData.xp -= 100000;
     seasonData.stars += 1;
-    seasonData.unspentStars += 1;
     floatOff(bpstatus, STAR);
   }
   localStorage.setItem('battlepass', JSON.stringify(bpData));
@@ -227,7 +262,7 @@ function showXp() {
     e.textContent = seasonData.stars;
   });
   document.querySelectorAll('.bp-unspent-stars').forEach(e => {
-    const s = seasonData.unspentStars;
+    const s = seasonData.stars - seasonData.buys.length;
     e.style.visibility = s ? 'visible' : 'hidden';
     e.textContent = s;
   });
