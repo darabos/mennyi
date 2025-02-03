@@ -114,10 +114,16 @@ function showBattlePass() {
     e.style.display = 'none';
   });
   battlepasspage.style.display = 'block';
-  const levelsHTML = levels =>
+  const levelsHTML = (levels, unlocked) =>
     levels
       .map(level => {
-        const inside = level.map(bpEntry).join('<i class="ti ti-chevron-right"></i>');
+        const entries = [];
+        let prevDone = true;
+        for (const e of level) {
+          entries.push(bpEntry(e, prevDone && unlocked));
+          prevDone = lockerFor(e.kind).includes(e.name);
+        }
+        const inside = entries.join('<i class="ti ti-chevron-right"></i>');
         return `<div class="bp-level">${inside}</div>`;
       })
       .join('');
@@ -125,9 +131,9 @@ function showBattlePass() {
   const unspent = unspentStars
     ? Array.from({ length: unspentStars }, () => STAR).join(' ')
     : 'Gyűjts csillagokat! Nézd meg a mai küldetéseket!';
-  const levels1 = levelsHTML(bpContents.levels.slice(0, 3));
-  const levels2 = levelsHTML(bpContents.levels.slice(3, 6));
-  const levels3 = levelsHTML(bpContents.levels.slice(6));
+  const levels1 = levelsHTML(bpContents.levels.slice(0, 3), true);
+  const levels2 = levelsHTML(bpContents.levels.slice(3, 6), seasonData.stars >= 10);
+  const levels3 = levelsHTML(bpContents.levels.slice(6), seasonData.stars >= 20);
   const lockClosed = `<i class="ti ti-lock"></i>`;
   const lockOpen = `<i class="ti ti-lock-open"></i>`;
   const lock10 = seasonData.stars >= 10 ? lockOpen : lockClosed;
@@ -144,13 +150,25 @@ function showBattlePass() {
     ${levels2}
     <h3>${lock20} ${Math.min(20, seasonData.stars)}/20 ${STAR}</h3>
     ${levels3}
+    <div class="explainer">
+      <p>Helyes válaszokkal és küldetések teljesítésével csillagokat kapsz. (100,000 XP egy csillag.)
+      Ezeket itt válthatod be színekre, kedvencekre és kutatókra. A battle pass soraiból szabadon
+      választhatsz, de a soron belül balról jobbra kell haladnod. Az első három sor rögtön elérhető.
+      A második három sor 10 csillag megszerzése után nyílik meg. Az utolsó három sorhoz 20 csillag
+      kell.</p>
+      <p>A korábban már megszerzett jutalmak úgy viselkednek, mintha megvetted volna őket, de nem
+      kerülnek csillagba.</p>
+      <p>Amikor a battle pass lejár, új battle pass kezdődik. Ilyenkor újra nulla csillaggal kezdesz,
+      és ezen az oldalon új jutalmakat találsz. Ha nem szereztél meg valamit, amit szerettél volna,
+      ne aggódj! Későbbi battle passokban visszatérhet!</p>
+    </div>
     `;
   document.querySelectorAll('.buy-popup').forEach(e => {
     e.onclick = () => {
       const stars = Math.min(1, seasonData.stars - seasonData.buys.length);
       if (stars === 0) return;
       const key = e.dataset.key;
-      bpContents.levels.flat().forEach(e => {
+      for (const e of bpContents.levels.flat()) {
         if (`${e.kind}-${e.name}` === key) {
           seasonData.buys.push(key);
           localStorage.setItem('battlepass', JSON.stringify(bpData));
@@ -160,7 +178,7 @@ function showBattlePass() {
           showBattlePass();
           showXp();
         }
-      });
+      }
     };
   });
 }
@@ -175,7 +193,7 @@ function lockerFor(kind) {
   }
 }
 
-function bpEntry(e) {
+function bpEntry(e, prevDone) {
   const key = `${e.kind}-${e.name}`;
   const category = lockerFor(e.kind);
   const has = category.includes(e.name);
@@ -193,7 +211,9 @@ function bpEntry(e) {
     inside = `<div class="text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)"></div>`;
   }
   const stars = Math.min(1, seasonData.stars - seasonData.buys.length);
-  const buyPopup = `<div class="buy-popup" data-key="${key}">${stars}/1 ${STAR} ${stars ? 'Kérem!' : ''}</div>`;
+  const buyLabel = !prevDone ? '<i class="ti ti-lock"></i>' : !stars ? '' : 'Kérem!';
+  const dataKey = stars && prevDone ? `data-key="${key}"` : '';
+  const buyPopup = `<div class="buy-popup" ${dataKey}>${stars}/1 ${STAR} ${buyLabel}</div>`;
   return `<div class="avatar-holder ${cls}" tabindex="0">${buyPopup}<div class="avatar ${cls}">${inside}${decor}</div></div>`;
 }
 
