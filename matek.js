@@ -250,7 +250,7 @@ function start(alsoSay) {
     timer.style.display = 'none';
   }
 }
-startbutton.onclick = start;
+startbutton.onclick = () => start();
 function say(text) {
   const u = new SpeechSynthesisUtterance(text);
   u.lang = LANGUAGES[nyelv.value].lang;
