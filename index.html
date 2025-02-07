@@ -1,319 +1,535 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
-html {
-  background-color: #458;
-  font-family: sans-serif;
-  zoom: 1.5;
-  font-size: 120%;
-}
-input[type=range] {
-  font-size: 100%;
-  width: 200px;
-}
-#szint, #valasz, #pont {
-  font-size: 200%;
-}
-#valasz {
-  padding: 5px 10px;
-  width: 20vw;
-}
-#hangszoro {
-  font-size: 200%;
-  float: right;
-  display: none;
-  animation: pulse 1s infinite ease;
-}
-button {
-  font-size: 100%;
-  padding: 10px 30px;
-  border-radius: 10px;
-}
-body {
-  margin: 30px auto;
-  width: 25vw;
-  min-width: 250px;
-  padding: 50px;
-  border-radius: 50px;
-  background-color: white;
-  box-shadow: 0 10px 10px #0004;
-}
-@keyframes pulse {
-  0% { transform: scale(1.1) }
-  15% { transform: scale(1.15) }
-  35% { transform: scale(1.1)}
-  70% { transform: scale(1.15) }
-  90% { transform: scale(1.1) }
-  100% { transform: scale(1.1) }
-}
-label {
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 0 5px 0 0;
-  margin: 3px;
-}
-#timer {
-  display: none;
-  background: #f41;
-  height: 10px;
-  margin: -10px 0;
-}
-.timer-animation {
-  animation: timer 10s linear;
-}
-@keyframes timer {
-  0% { width: 0%; background: #4a1; }
-  90% { background: #4a1; }
-  95% { background: #991; }
-  100% { width: 100%; background: #f41; }
-}
-#pont {
-  margin-left: 50px;
-}
+  html {
+    --border-color: #458;
+    --bg-color: #fff;
+    background-color: var(--border-color);
+    accent-color: var(--border-color);
+    transition: background-color 0.5s;
+    font-family: sans-serif;
+    font-size: 180%;
+  }
+  input[type='range'] {
+    font-size: 100%;
+    width: 300px;
+  }
+  input[type='radio'],
+  input[type='checkbox'] {
+    zoom: 1.5;
+  }
+  #szint {
+    font: 22px sans-serif;
+    width: 50px;
+    border: 0;
+    background: none;
+    text-align: right;
+  }
+  #valasz,
+  #pont {
+    font-size: 200%;
+  }
+  #valasz {
+    padding: 8px 15px;
+    width: 100%;
+    border-radius: 5px;
+  }
+  #hangszoro {
+    font-size: 200%;
+    float: right;
+    display: none;
+    animation: pulse 1s infinite ease;
+  }
+  #startbutton {
+    font-size: 100%;
+    padding: 15px 45px;
+    border-radius: 15px;
+  }
+  .bg {
+    margin: 45px auto;
+    width: 40vw;
+    min-width: 490px;
+    padding: 65px;
+    padding-top: 0;
+    border-radius: 75px;
+    background-color: var(--bg-color);
+    transition: background-color 0.2s;
+    box-shadow: 0 15px 15px #0004;
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(1.1);
+    }
+    15% {
+      transform: scale(1.15);
+    }
+    35% {
+      transform: scale(1.1);
+    }
+    70% {
+      transform: scale(1.15);
+    }
+    90% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  }
+  select {
+    appearance: none;
+  }
+  select,
+  label {
+    display: inline-block;
+    border: 1px solid var(--border-color);
+    background-color: #fff4;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin: 5px;
+    font: 22px sans-serif;
+  }
+  label {
+    padding-left: 0;
+  }
+  #timer {
+    display: none;
+    background: #f41;
+    height: 15px;
+  }
+  .timer-animation {
+    animation: timer 10s linear;
+  }
+  @keyframes timer {
+    0% {
+      width: 0%;
+      background: #4a1;
+    }
+    90% {
+      background: #4a1;
+    }
+    95% {
+      background: #991;
+    }
+    100% {
+      width: 100%;
+      background: #f41;
+    }
+  }
+  #pont {
+    margin-left: 75px;
+  }
+  h1 {
+    text-align: center;
+    padding: 0;
+    margin: 8px;
+    margin-bottom: 0;
+  }
+  h2 {
+    margin: 0;
+  }
+  .avatar {
+    position: relative;
+    border-radius: 40px;
+    box-shadow: 0 8px 30px #0004;
+    cursor: pointer;
+    overflow: hidden;
+    transition: box-shadow 0.4s, transform 0.4s;
+  }
+  #lockeroptions .avatar:hover,
+  #battlepasspage .avatar:hover:not(.owned) {
+    box-shadow: 0 8px 60px #0008;
+    transform: translateY(-4px) scale(1.04);
+  }
+  .avatar.bought,
+  .avatar.selected {
+    outline: 3px solid white;
+  }
+  .avatar .text,
+  .avatar.text {
+    display: inline-flex;
+    font-size: 100px;
+    width: 100%;
+    height: 150px;
+    vertical-align: top;
+    justify-content: center;
+    align-items: center;
+  }
+  .avatar.none {
+    box-shadow: none;
+  }
+  .avatar.owned {
+    box-shadow: none;
+    cursor: default;
+  }
+  .avatar.owned > .text,
+  .avatar.owned > img {
+    filter: brightness(75%);
+  }
+  #avatar {
+    border: 3px solid white;
+  }
+  .star-icon {
+    width: 35px;
+    vertical-align: baseline;
+    margin-left: -8px;
+    margin-top: -3px;
+    margin-bottom: -3px;
+  }
+  #matekbpheader {
+    display: none;
+    text-align: center;
+  }
+  #matekbpheader > div {
+    display: inline-block;
+    position: relative;
+    margin-top: -30px;
+    z-index: 1;
+  }
+  .bp-progress {
+    position: absolute;
+    background: linear-gradient(to bottom, #fffa 0%, #fff8 10%, #fff4 90%, #0004 100%);
+    border-radius: 0 15px 15px 0;
+    padding: 8px;
+    top: 30%;
+    left: 100%;
+    width: 75px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+  .bp-star-count {
+    white-space: nowrap;
+  }
+  .bp-bar-outside {
+    display: block;
+    height: 8px;
+    border-radius: 8px 0;
+    margin: 3px;
+    border: 1px solid #0004;
+    overflow: hidden;
+  }
+  .bp-bar-inside {
+    height: 8px;
+    background: linear-gradient(to left, #f40 0%, #ff0 50px);
+  }
+  #lockeroptions {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 155px);
+    justify-content: space-between;
+  }
+  #battlepasspage .avatar,
+  #lockeroptions .avatar {
+    margin: 6px;
+  }
+  #kedvenc {
+    cursor: pointer;
+    position: absolute;
+    border-radius: 15px 0 0 15px;
+    outline: 1.5px solid white;
+    top: 30%;
+    left: -65px;
+    z-index: 0;
+  }
+  .bg-header {
+    .icons {
+      font-size: 45px;
+      display: flex;
+      justify-content: space-around;
+      i {
+        color: #0008;
+        display: block;
+        cursor: pointer;
+        border-radius: 0 0 15px 15px;
+        padding: 8px;
+      }
+      i.selected {
+        background-color: var(--border-color);
+        color: var(--bg-color);
+        margin-top: -0.5px; /* avoid super thin gap */
+      }
+    }
+  }
+  .bg-header#matekbgheader .icons {
+    justify-content: left;
+  }
+  .mission-list {
+    padding: 0;
+    margin: 0;
+  }
+  .mission-list:not(:last-child) {
+    margin-bottom: 30px;
+  }
+  .mission-list li {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    background-color: #fff4;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin: 5px;
+    font: 20px sans-serif;
+  }
+  .mission-text {
+    flex: auto;
+  }
+  .mission-reward {
+    font-size: 15px;
+    white-space: nowrap;
+    margin-left: 20px;
+  }
+  .mission-progress {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 30px 0 30px;
+    background: linear-gradient(
+      transparent calc(50% - 1.5px),
+      black calc(50% - 1.5px),
+      black calc(50% + 1.5px),
+      transparent calc(50% + 1.5px)
+    );
+    i {
+      background: var(--bg-color);
+      position: relative;
+      b {
+        background-color: #fff4;
+        border-radius: 8px;
+        padding: 3px 8px;
+        font: 15px sans-serif;
+        position: absolute;
+        bottom: 105%;
+        white-space: nowrap;
+        transform: translateX(-50%);
+        left: 50%;
+        img {
+          width: 20px;
+        }
+      }
+      b.done {
+        background: none;
+      }
+    }
+  }
+  #battlepasspage small,
+  #missionpage small {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  #battlepasspage h3 {
+    font-weight: normal;
+    text-align: center;
+  }
+  .bp-level {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .bordered {
+    border: 1px solid var(--border-color);
+    padding: 20px 30px;
+    border-radius: 8px;
+    position: relative;
+    margin: 20px 0;
+  }
+  .bordered .header {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+  .bordered .header-inside {
+    display: inline-block;
+    background-color: var(--bg-color);
+    padding: 0 10px;
+    font-size: 15px;
+  }
+  #battlepasspage .bordered {
+    font-size: 15px;
+    text-align: center;
+  }
+  #locker,
+  #shop,
+  #missionpage,
+  #battlepasspage {
+    display: none;
+  }
+  .floater {
+    position: absolute;
+    font-size: 36px;
+    font-weight: bold;
+    pointer-events: none;
+    animation: floatUp 1s ease-out forwards;
+  }
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-75px);
+      opacity: 0;
+    }
+  }
+  .notification {
+    /* https://stackoverflow.com/a/71440299/3318517 */
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    min-width: 1.6em;
+    height: 1.6em;
+    border-radius: 0.8em;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    color: white;
+  }
+  .decor {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+  .decor .ti {
+    background: var(--bg-color);
+    border-radius: 100%;
+  }
+  .avatar-holder {
+    width: 150px;
+    position: relative;
+  }
+  .buy-popup {
+    position: absolute;
+    background: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 10px 20px;
+    bottom: calc(100% + 10px);
+    white-space: nowrap;
+    display: none;
+    cursor: pointer;
+  }
+  .avatar-holder.buyable:focus .buy-popup {
+    display: block;
+  }
+  .explainer {
+    margin-top: 40px;
+    font-size: 15px;
+    text-align: justify;
+  }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.1/dist/tabler-icons.min.css" />
 
-<p><a href="https://github.com/darabos/mennyi">
-  <img src="https://github.com/favicon.ico" width="20" style="float: right;"></a>
-<p>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any">
-<select id="nyelv" onchange="languageChanged()"></select>
-<label><input type="checkbox" id="osszeadas" checked disabled />Összeadás</label>
-<label><input type="checkbox" id="kivonas" />Kivonás</label>
-<label><input type="checkbox" id="szorzas" />Szorzás</label>
-<label><input type="checkbox" id="irasbeli" />Írásbeli</label>
-<label><input type="checkbox" id="ketjegyu" />Kétjegyű</label>
-<label><input type="checkbox" id="idore" />Időre</label>
-<label><input type="checkbox" id="szintlepes" checked />Szintlépés</label>
-<p><span id="szint"></span>. szint <span id="pont">0</span> pont
-<p id="timer">
-<p id="kerdes">
-<p><button onclick="start()">Start ⏎</button><span id="hangszoro">🔊</span>
-<p><input type="number" id="valasz">
+<div id="matek" class="bg">
+  <div id="matekbpheader">
+    <div>
+      <div class="bp-progress" id="bpstatus">
+        <div class="bp-star-count">
+          <span class="bp-stars">25</span>
+          <img src="images/star-outlined.webp" class="star-icon" />
+        </div>
+        <div class="bp-bar-outside"><div class="bp-bar-inside" style="width: 90%"></div></div>
+        <div class="notification bp-unspent-stars" role="status">3</div>
+      </div>
+      <img src="images/space-animals-sana/snail-m.jpeg" width="150" id="avatar" class="avatar" />
+      <img src="images/furballs-sana/Samantha.jpg" width="65" id="kedvenc" />
+    </div>
+  </div>
+  <div class="bg-header" id="matekbgheader">
+    <div class="icons">
+      <i class="ti ti-shirt"></i>
+    </div>
+  </div>
+  <p>
+    <a href="https://github.com/darabos/mennyi">
+      <img src="https://github.com/favicon.ico" width="30" style="float: right"
+    /></a>
+  </p>
 
+  <div>
+    <div>Sebesség: <input type="range" id="sebesseg" min="0.5" max="2" value="1" step="any" /></div>
+    <select id="nyelv" onchange="languageChanged()"></select>
+    <label><input type="checkbox" id="osszeadas" checked disabled />Összeadás</label>
+    <label><input type="checkbox" id="kivonas" />Kivonás</label>
+    <label><input type="checkbox" id="szorzas" />Szorzás</label>
+    <label><input type="checkbox" id="irasbeli" />Írásbeli</label>
+    <label><input type="checkbox" id="ketjegyu" />Kétjegyű</label>
+    <label><input type="checkbox" id="idore" />Időre</label>
+    <label><input type="number" id="szint" value="2" min="2" />szám</label>
+    <label><input type="checkbox" id="szintlepes" checked />Szintlépés</label>
+  </div>
 
-<script>
-speechSynthesis.onvoiceschanged = function() {};
-const LANGUAGES = {
-  'Magyar': {
-    lang: 'hu', prompt: 'Mennyi',
-    plus: 'meg',
-    minus: n => 'b' + 'xőőóőőóőóő'[n%10].replace('x', 'xőóóőőóőóő'[Math.floor(n/10)]) + 'l',
-    times: n => 'sz' + 'xeöoeöoeoe'[n%10].replace('x', 'xeooeeoeoe'[Math.floor(n/10)]) + 'r',
-    numbers: ['egy', 'kettő', 'három', 'négy', 'öt', 'hat', 'hét', 'nyolc', 'kilenc'],
-    yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
-    no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
-    slow: ['Túl lassú!', 'Gyorsabban!'],
-  },
-  'Angol': {
-    lang: 'en', prompt: 'What is', plus: 'plus', times: 'times', minus: 'minus',
-    numbers: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
-    yes: ['Yes.', 'Correct.', 'Yeah.', 'Indeed.', 'Right.'],
-    no: ['No.', 'No.', 'No.', 'No.', 'Nope.', 'Sorry.'],
-    slow: ['Too slow!', 'Faster!', 'Too late!'],
-  },
-  'Űrlény': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
-    minus: n => 'bl' + 'xóóőóőóóóó'[n] + 'l',
-    times: n => 'sz' + 'xooeoeoooo'[n] + 'r',
-    numbers: ['ong', 'bong', 'ké', 'melo', 'gik', 'lekka', 'larp', 'donk', 'bedong'],
-    yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.'],
-    no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.'],
-    slow: ['Túl lassú!', 'Gyorsabban!', 'A bedong nem vár.'],
-  },
-  'Csibe': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg', minus: 'ből', times: 'szer',
-    numbers: ['csip', 'csipcsip', 'csipcsipcsip', 'csipcsipcsipcsip', 'csirip', 'csipcsirip', 'csipcsipcsirip', 'csipcsipcsipcsirip', 'csipcsipcsipcsipcsirip'],
-    yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van, kukurikú.'],
-    no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Csip, nem.'],
-    slow: ['Túl lassú!', 'Gyorsabban!', 'Lassú csibe!'],
-  },
-  'Japán': {
-    lang: 'ja', prompt: '', plus: 'たす', minus: 'ひく',
-    times: 'かける', ending: 'とは何ですか？',
-    numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-    yes: ['はい。', 'はい。', 'はい。', 'はい。', 'はい、確かに。'],
-    no: ['いいえ。', 'いいえ。', 'いいえ。', 'いいえ。', 'とんでもない。'],
-    slow: ['遅すぎる!'],
-  },
-  'Hónapok': {
-    lang: 'hu', prompt: 'Mennyi', plus: 'meg',
-    minus: n => 'b' + 'xóóóóóóóóőőőő'[n] + 'l',
-    times: n => 'sz' + 'xooooooooeeee'[n] + 'r',
-    numbers: 'január február március április május június július augusztus szeptember október november december'.split(' '),
-    yes: ['Igen.', 'Igen.', 'Igen.', 'Igen.', 'Így van.', 'Tökéletes.'],
-    no: ['Nem.', 'Nem.', 'Nem.', 'Nem.', 'Jaj, nem.', 'Tökéletesen rossz.'],
-    slow: ['Túl lassú!', 'Gyorsabban!'],
-  },
-  'Hindi': {
-    lang: 'hi', prompt: '', plus: 'और', minus: 'माइनस', times: 'गुणा', ending: "कितना है?",
-    numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-    yes: ['सही!', 'हाँ!', 'बिल्कुल!', 'सही।'],
-    no: ['नहीं।', 'गलत.'],
-    slow: ['बहुत धीमा।', 'और वक्त नहीं।'],
-  },
-}
-function languageChanged() {
-  ketjegyu.disabled = nyelv.value !== 'Magyar' && nyelv.value !== 'Angol' && nyelv.value !== 'Japán' && nyelv.value !== "Hindi";
-  ketjegyu.checked = ketjegyu.checked && !ketjegyu.disabled;
-}
-function keepOne() {
-  let checked = 0;
-  for (const c of [osszeadas, kivonas, szorzas]) {
-    if (c.checked) {
-      checked += 1;
-    }
-  }
-  for (const c of [osszeadas, kivonas, szorzas]) {
-    c.disabled = checked === 1 && c.checked;
-  }
-}
-osszeadas.onchange = keepOne;
-kivonas.onchange = keepOne;
-szorzas.onchange = keepOne;
-for (const l in LANGUAGES) {
-  nyelv.innerHTML += `<option value="${l}">${l}</option>`;
-}
-let level = 2;
-let answer = '';
-szint.textContent = level;
-function newTask(level) {
-  const l = LANGUAGES[nyelv.value];
-  let answer, last, mult, lastsign;
-  const words = [];
-  const math = [];
-  for (let i = 0; i < level; ++i) {
-    let n = Math.floor(Math.random() * l.numbers.length) + 1;
-    let nword = l.numbers[n-1];
-    if (ketjegyu.checked) {
-      n = 10 + Math.floor(Math.random() * 90);
-      nword = n.toString();
-    }
-    let op;
-    if (answer) {
-      const options = [];
-      if (osszeadas.checked) options.push(osszeadas);
-      if (kivonas.checked && answer > n) options.push(kivonas);
-      if (szorzas.checked && (lastsign == '+' || answer > mult * (n - 1))) options.push(szorzas);
-      if (options.length === 0) {
-        return newTask(level);
-      } else {
-        op = pickRandom(options);
-      }
-    }
-    if (!op) {
-      math.push(n);
-      words.push(nword);
-      answer = n;
-      mult = n;
-      lastsign = '+';
-    } else if (op === szorzas) {
-      math.push(' · ');
-      math.push(n);
-      words.push(typeof l.times === 'string' ? l.times : l.times(last));
-      words.push(nword);
-      if (lastsign === '+')
-        answer += mult * (n - 1);
-      else
-        answer -= mult * (n - 1);
-      mult *= n;
-    } else if (op === kivonas) {
-      math.push(' - ');
-      math.push(n);
-      words.push(typeof l.minus === 'string' ? l.minus : l.minus(last));
-      words.push(nword);
-      answer -= n;
-      mult = n;
-      lastsign = '-';
-    } else {
-      math.push(' + ');
-      math.push(n);
-      words.push(l.plus);
-      words.push(nword);
-      answer += n;
-      mult = n;
-      lastsign = '+';
-    }
-    last = n;
-  }
-  const text = l.prompt + ' ' + words.join(' ') + (l.ending || '?');
-  return {math, text, answer};
-}
-let task;
-function start(alsoSay) {
-  if (task) {
-    clearTimeout(task.timeout);
-  }
-  task = newTask(level);
-  kerdes.innerHTML = irasbeli.checked ? task.math.join('') : '';
-  console.log(task.text);
-  answer = '';
-  valasz.value = '';
-  valasz.style.backgroundColor = null;
-  valasz.focus();
-  say((alsoSay || '') + ' ' + task.text);
-  if (idore.checked) {
-    timer.style.display = 'block';
-    // Animáció újraindítása.
-    timer.classList.remove('timer-animation');
-    timer.offsetWidth;
-    timer.classList.add('timer-animation');
-    task.timeout = setTimeout(function() {
-      if (valasz.style.backgroundColor) {
-        start();
-      } else {
-        start(pickRandom(LANGUAGES[nyelv.value].slow));
-      }
-    }, 10000);
-  } else {
-    timer.style.display = 'none';
-  }
-}
-function say(text) {
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = LANGUAGES[nyelv.value].lang;
-  u.rate = parseFloat(sebesseg.value);
-  window.speechSynthesis.cancel();
-  hangszoro.style.display = 'block';
-  u.onend = function() { hangszoro.style.display = 'none'; };
-  window.speechSynthesis.speak(u);
-}
-function pickRandom(options) {
-  return options[(Math.random() * options.length)|0];
-}
-function sayRandom(options) {
-  say(pickRandom(options));
-}
-valasz.onkeypress = function(e) {
-  e.preventDefault();
-  if (e.key === 'Enter') {
-    start();
-  }
-  if (valasz.style.backgroundColor) return;
-  if (e.key >= '0' && e.key <= '9') {
-    answer = answer + e.key;
-    const correct = task.answer.toString();
-    if (answer === correct) {
-      let score = level;
-      if (szorzas.checked) score *= 2;
-      if (ketjegyu.checked) score *= 5;
-      if (idore.checked) score *= 10;
-      if (!irasbeli.checked) score *= 10;
-      pont.textContent = parseInt(pont.textContent) + score;
-      valasz.style.backgroundColor = '#6f4';
-      if (szintlepes.checked) {
-        level += 1;
-        szint.textContent = level;
-      }
-      say(correct + ', ' + pickRandom(LANGUAGES[nyelv.value].yes));
-    } else if (!correct.startsWith(answer)) {
-      valasz.style.backgroundColor = '#f64';
-      if (szintlepes.checked && level > 2) {
-        level -= 1;
-        szint.textContent = level;
-      }
-      sayRandom(LANGUAGES[nyelv.value].no);
-    }
-    valasz.value = answer;
-  }
-}
-</script>
+  <div id="timer"></div>
+  <p id="kerdes"></p>
+  <p><button id="startbutton">Start ⏎</button><span id="hangszoro">🔊</span></p>
+  <p>
+    <input type="number" id="valasz" />
+  </p>
+</div>
+
+<div id="locker" class="bg">
+  <div class="bg-header">
+    <div class="icons">
+      <i class="ti ti-home"></i>
+      <i class="ti ti-shirt selected"></i>
+      <i class="ti ti-flag"></i>
+      <i class="ti ti-stars"></i>
+    </div>
+    <h1>Öltöző</h1>
+  </div>
+  <p>
+    <label><input type="radio" name="lockerpage" id="locker_kutato" checked />Kutató</label>
+    <label><input type="radio" name="lockerpage" id="locker_kedvenc" />Kedvenc</label>
+    <label><input type="radio" name="lockerpage" id="locker_szinek" />Színek</label>
+  </p>
+  <div id="lockeroptions"></div>
+</div>
+
+<div id="battlepasspage" class="bg">
+  <div class="bg-header">
+    <div class="icons">
+      <i class="ti ti-home"></i>
+      <i class="ti ti-shirt"></i>
+      <i class="ti ti-flag"></i>
+      <i class="ti ti-stars selected"></i>
+    </div>
+  </div>
+  <div id="battlepasspagecontent"></div>
+</div>
+
+<div id="shop" class="bg">
+  <div class="bg-header">
+    <div class="icons">
+      <i class="ti ti-home"></i>
+      <i class="ti ti-shirt"></i>
+      <i class="ti ti-flag"></i>
+      <i class="ti ti-stars"></i>
+      <i class="ti ti-shopping-cart selected"></i>
+    </div>
+    <h1>Bolt</h1>
+  </div>
+  <div id="shopoptions"></div>
+</div>
+
+<div id="missionpage" class="bg">
+  <div class="bg-header">
+    <div class="icons">
+      <i class="ti ti-home"></i>
+      <i class="ti ti-shirt"></i>
+      <i class="ti ti-flag selected"></i>
+      <i class="ti ti-stars"></i>
+    </div>
+  </div>
+  <div id="missionpagecontent"></div>
+</div>
+
+<script src="matek.js"></script>
+<script src="locker.js"></script>
+<script src="missions.js"></script>
+<script src="battlepass.js"></script>
+<script src="shop.js"></script>
