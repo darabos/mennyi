@@ -278,7 +278,7 @@ valasz.onkeypress = function (e) {
     answer = answer + e.key;
     const correct = task.answer.toString();
     if (answer === correct) {
-      let score = parseInt(szint.value) * 10;
+      let score = parseInt(szint.value) * 50;
       if (szorzas.checked) score *= 2;
       if (ketjegyu.checked) score *= 5;
       if (idore.checked) score *= 10;

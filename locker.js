@@ -1,6 +1,6 @@
-const lockerData = JSON.parse(localStorage.getItem('locker') || '{}');
+const lockerData = JSON.parse(localStorage.getItem('locker') ?? '{}');
 lockerData.kutatok ??= ['snail-m', 'snail-f'];
-lockerData.selectedKutato ??= 'snail-f';
+lockerData.selectedKutato ??= 'none';
 lockerData.kedvencek ??= ['Samantha', 'Dennis'];
 lockerData.selectedKedvenc ??= 'none';
 lockerData.szinek ??= ['original', 'snail'];
@@ -17,6 +17,9 @@ function showLocker() {
       lockerData.selectedKutato,
       '<img src="images/space-animals-sana/CHOICE.jpeg" data-choice="CHOICE" width="150" class="avatar SELECTED" />'
     );
+    lockeroptions.innerHTML += `<span class="avatar text none ${
+      lockerData.selectedKedvenc === 'none' ? 'selected' : ''
+    }" data-choice="none" >✕</span>`;
     lockeroptions.querySelectorAll('.avatar').forEach(avatar => {
       avatar.onclick = function () {
         lockerData.selectedKutato = avatar.dataset.choice;
@@ -94,7 +97,11 @@ function showLockerOptions(options, selected, template) {
     .join('');
 }
 function applyLockerSettings() {
-  avatar.src = `images/space-animals-sana/${lockerData.selectedKutato}.jpeg`;
+  matekbpheader.style.display = lockerData.selectedKutato === 'none' ? 'none' : 'block';
+  matekbgheader.style.display = lockerData.selectedKutato === 'none' ? 'block' : 'none';
+  if (lockerData.selectedKutato !== 'none') {
+    avatar.src = `images/space-animals-sana/${lockerData.selectedKutato}.jpeg`;
+  }
   kedvenc.style.display = lockerData.selectedKedvenc !== 'none' ? 'block' : 'none';
   if (lockerData.selectedKedvenc !== 'none') {
     kedvenc.src = `images/furballs-sana/${lockerData.selectedKedvenc}.jpg`;

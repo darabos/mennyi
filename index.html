@@ -176,9 +176,13 @@
     margin-top: -3px;
     margin-bottom: -3px;
   }
-  .bp-header {
-    position: relative;
+  #matekbpheader {
+    display: none;
+    text-align: center;
+  }
+  #matekbpheader > div {
     display: inline-block;
+    position: relative;
     margin-top: -30px;
     z-index: 1;
   }
@@ -245,6 +249,9 @@
         margin-top: -0.5px; /* avoid super thin gap */
       }
     }
+  }
+  .bg-header#matekbgheader .icons {
+    justify-content: left;
   }
   .mission-list {
     padding: 0;
@@ -418,8 +425,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.1/dist/tabler-icons.min.css" />
 
 <div id="matek" class="bg">
-  <div style="text-align: center">
-    <div class="bp-header">
+  <div id="matekbpheader">
+    <div>
       <div class="bp-progress" id="bpstatus">
         <div class="bp-star-count">
           <span class="bp-stars">25</span>
@@ -430,6 +437,11 @@
       </div>
       <img src="images/space-animals-sana/snail-m.jpeg" width="150" id="avatar" class="avatar" />
       <img src="images/furballs-sana/Samantha.jpg" width="65" id="kedvenc" />
+    </div>
+  </div>
+  <div class="bg-header" id="matekbgheader">
+    <div class="icons">
+      <i class="ti ti-shirt"></i>
     </div>
   </div>
   <p>
