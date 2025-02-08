@@ -13,9 +13,8 @@ function showLocker() {
   locker.style.display = 'block';
   if (locker_kutato.checked) {
     showLockerOptions(
-      lockerData.kutatok,
-      lockerData.selectedKutato,
-      '<img src="images/space-animals-sana/CHOICE.jpeg" data-choice="CHOICE" width="150" class="avatar SELECTED" />'
+      lockerData.kutatok.map(k => ({ kind: 'kutato', name: k })),
+      lockerData.selectedKutato
     );
     lockeroptions.innerHTML += `<span class="avatar text none ${
       lockerData.selectedKedvenc === 'none' ? 'selected' : ''
@@ -31,9 +30,8 @@ function showLocker() {
     });
   } else if (locker_kedvenc.checked) {
     showLockerOptions(
-      lockerData.kedvencek,
-      lockerData.selectedKedvenc,
-      '<img src="images/furballs-sana/CHOICE.jpg" data-choice="CHOICE" width="150" class="avatar SELECTED" />'
+      lockerData.kedvencek.map(k => ({ kind: 'kedvenc', name: k })),
+      lockerData.selectedKedvenc
     );
     lockeroptions.innerHTML += `<span class="avatar text none ${
       lockerData.selectedKedvenc === 'none' ? 'selected' : ''
@@ -66,6 +64,7 @@ function showLocker() {
       };
     });
   }
+  activateVideos();
 }
 const SZINEK = {
   original: '#458 #fff',
@@ -90,10 +89,13 @@ const SZINEK = {
   faint: '#edc #fed',
 };
 
-function showLockerOptions(options, selected, template) {
+function showLockerOptions(options, selected) {
   options.sort();
   lockeroptions.innerHTML = options
-    .map(choice => template.replaceAll('CHOICE', choice).replaceAll('SELECTED', choice === selected ? 'selected' : ''))
+    .map(
+      choice => `<div class="avatar ${choice.name === selected ? 'selected' : ''}" data-choice="${choice.name}">
+      ${avatarContents(choice)}</div>`
+    )
     .join('');
 }
 function applyLockerSettings() {

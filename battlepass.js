@@ -105,6 +105,29 @@ zebra-m
 `
   .trim()
   .split('\n');
+
+const videos = {
+  'kutato-peacock-m': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-08-09/video/1738977300204891686-video_watermark_815e64f5c3039e2f2b70e5ed3db115cb_344312700715180037.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-08-09/video_cover/1738977300652734128-cover_815e64f5c3039e2f2b70e5ed3db115cb.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-lion-m': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-08-06/video/1738967252663746195-video_watermark_bc955342745aca9d8ba479a2b33c6ff5_344312562936467458.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-08-06/video_cover/1738967253108342149-cover_bc955342745aca9d8ba479a2b33c6ff5.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-snail-f': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-08-01/video/1738950658917617550-video_watermark_895b7ce42b43d55ca97dd2855d2368e1_343648905806016514.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-08-01/video_cover/1738950659333714798-cover_895b7ce42b43d55ca97dd2855d2368e1.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-pepper-m': `
+    <video class="h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-07-05/video/1738878421867525681-video_watermark_a50b002f60ec1c8e043b010da15615d5_343648778311782401.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-07-05/video_cover/1738878422319079697-cover_a50b002f60ec1c8e043b010da15615d5.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-sheep-f': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-06-08/video/1738803526773125815-video_watermark_2ca8fb9a37bf5e141c1f94b412ac3000_343086757694394374.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-06-08/video_cover/1738803527121233138-cover_2ca8fb9a37bf5e141c1f94b412ac3000.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-octopus-m': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-05-19/video/1738754498882162814-video_watermark_a9d81f7d99498e3e86b8d14aaae00a6b_343086679093149696.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-05-19/video_cover/1738754499869910256-cover_a9d81f7d99498e3e86b8d14aaae00a6b.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-dolphin-f': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-05-07/video/1738710338304607895-video_watermark_cf8d589f63912f6865fb86603a16bd1d_343086564525789191.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-05-07/video_cover/1738710338702350287-cover_cf8d589f63912f6865fb86603a16bd1d.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-cheetah-f': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-04-15/video/1738652417861949837-video_watermark_2c5b08a4b1b865d402a16e54f09592f1_342741420957974535.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-04-15/video_cover/1738652418471508212-cover_2c5b08a4b1b865d402a16e54f09592f1.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-cheetah-m': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-04-05/video/1738618550924342389-video_watermark_622fcd9170d1e72799f46cc2832fb206_342741365689618441.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-04-05/video_cover/1738618551387144252-cover_622fcd9170d1e72799f46cc2832fb206.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+  'kutato-snail-m': `
+    <video class=" h-full object-contain relative z-[5]" src="https://cdn.hailuoai.video/moss/prod/2025-02-03-05/video/1738530361710779029-video_watermark_b5d5ed558bbce0ab06767e6cded481ea_342384086695931911.mp4" poster="https://cdn.hailuoai.video/moss/prod/2025-02-03-05/video_cover/1738530362082914753-cover_b5d5ed558bbce0ab06767e6cded481ea.jpeg?x-oss-process=image/resize,w_540/format,webp" width="100%" height="100%" loop="" playsinline="" preload="none" disablepictureinpicture="" disableremoteplayback="" webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="" x-webkit-airplay="allow" raw-controls="false" controls360="no"></video>`,
+};
 const ALL_SZINEK = Object.keys(SZINEK);
 ALL_SZINEK.sort();
 const STAR = '<img src="images/star-outlined.webp" class="star-icon" />';
@@ -199,6 +222,14 @@ function showBattlePass() {
       }
     };
   });
+  activateVideos();
+}
+
+function activateVideos() {
+  document.querySelectorAll('video').forEach(vid => {
+    vid.onmouseover = () => vid.play();
+    vid.onmouseout = () => vid.pause();
+  });
 }
 
 function lockerFor(kind) {
@@ -211,6 +242,22 @@ function lockerFor(kind) {
   }
 }
 
+const hasMouse = window.matchMedia('(any-hover: hover)').matches;
+
+function avatarContents(e) {
+  const key = `${e.kind}-${e.name}`;
+  if (videos[key] !== undefined && hasMouse) {
+    return videos[key];
+  } else if (e.kind == 'kutato') {
+    return `<img src="images/space-animals-sana/${e.name}.jpeg" width="150" />`;
+  } else if (e.kind == 'kedvenc') {
+    return `<img src="images/furballs-sana/${e.name}.jpg" width="150" />`;
+  } else if (e.kind == 'szin') {
+    const [c1, c2] = SZINEK[e.name].split(' ');
+    return `<div class="text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)"></div>`;
+  }
+}
+
 function bpEntry(e, prevDone) {
   const key = `${e.kind}-${e.name}`;
   const category = lockerFor(e.kind);
@@ -219,20 +266,16 @@ function bpEntry(e, prevDone) {
   const cls = (has ? 'owned' : 'buyable') + (bought ? ' bought' : '');
   const mark = bought ? STAR : has ? '<i class="ti ti-circle-check"></i>' : '';
   const decor = mark ? `<div class="decor">${mark}</div>` : '';
-  let inside = '';
-  if (e.kind == 'kutato') {
-    inside = `<img src="images/space-animals-sana/${e.name}.jpeg" width="150" />`;
-  } else if (e.kind == 'kedvenc') {
-    inside = `<img src="images/furballs-sana/${e.name}.jpg" width="150" />`;
-  } else if (e.kind == 'szin') {
-    const [c1, c2] = SZINEK[e.name].split(' ');
-    inside = `<div class="text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)"></div>`;
-  }
+  const inside = avatarContents(e);
   const stars = Math.min(1, seasonData.stars - seasonData.buys.length);
   const buyLabel = !prevDone ? '<i class="ti ti-lock"></i>' : !stars ? '' : 'Kérem!';
   const dataKey = stars && prevDone ? `data-key="${key}"` : '';
   const buyPopup = `<div class="buy-popup" ${dataKey}>${stars}/1 ${STAR} ${buyLabel}</div>`;
-  return `<div class="avatar-holder ${cls}" tabindex="0">${buyPopup}<div class="avatar ${cls}">${inside}${decor}</div></div>`;
+  return `
+    <div class="avatar-holder ${cls}" tabindex="0">
+      ${buyPopup}
+      <div class="avatar ${cls}">${inside}${decor}</div>
+    </div>`;
 }
 
 function getBattlePassContents() {
