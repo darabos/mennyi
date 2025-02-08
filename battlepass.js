@@ -138,6 +138,7 @@ function showBattlePass() {
   const lockOpen = `<i class="ti ti-lock-open"></i>`;
   const lock10 = seasonData.stars >= 10 ? lockOpen : lockClosed;
   const lock20 = seasonData.stars >= 20 ? lockOpen : lockClosed;
+  const hr = `<hr style="flex: 1;"/>`;
   battlepasspagecontent.innerHTML = `
     <h1>Battle Pass</h1>
     <small>${seasonStr}-ig</small>
@@ -160,8 +161,24 @@ function showBattlePass() {
       <p>A korábban már megszerzett jutalmak úgy viselkednek, mintha megvetted volna őket, de nem
       kerülnek csillagba.</p>
       <p>Amikor a battle pass lejár, új battle pass kezdődik. Ilyenkor újra nulla csillaggal kezdesz,
-      és ezen az oldalon új jutalmakat találsz. Ha nem szereztél meg valamit, amit szerettél volna,
+      és ezen az oldalon új jutalmakat találsz majd. Ha nem szereztél meg valamit, amit szerettél volna,
       ne aggódj! Későbbi battle passokban visszatérhet!</p>
+    </div>
+    <div
+      class="explainer"
+      style="cursor: pointer; text-align: center; display: flex;"
+      onclick="infoszuloknek.style.display='block'">${hr}<span style="padding: 0 10px;">Szülőknek</span>${hr}</div>
+    <div class="explainer" id="infoszuloknek" style="display: none;">
+      <p>A "battle pass" rendszert azért csinálják a játékok, hogy a gyerekek minél többet játsszanak
+      velük és minél több pénzt befizessenek. De miért ne használhatnánk arra, hogy minél többet
+      tanuljanak?
+      </p>
+      <p>A játék teljesen a böngészőben fut, és nem küld el semmilyen adatot. Azt sem tudom, hogy
+      hányan játszanak vele. Mivel minden adatot a böngésző tárol, elveszhetnek az állás, ha például
+      új telefont vesztek. Ha szeretnétek az állást átmenteni egy másik eszközre, akkor szóljatok!
+      </p>
+      <p>A képeket a <a href="https://nv-sana.mit.edu/">Sana 1.6B</a> model készítette.</p>
+      <p>— Dani</p>
     </div>
     `;
   document.querySelectorAll('.buy-popup').forEach(e => {
