@@ -174,7 +174,7 @@ function showBattlePass() {
       tanuljanak?
       </p>
       <p>A játék teljesen a böngészőben fut, és nem küld el semmilyen adatot. Azt sem tudom, hogy
-      hányan játszanak vele. Mivel minden adatot a böngésző tárol, elveszhetnek az állás, ha például
+      hányan játszanak vele. Mivel minden adatot a böngésző tárol, elveszhet az állásotok, ha például
       új telefont vesztek. Ha szeretnétek az állást átmenteni egy másik eszközre, akkor szóljatok!
       </p>
       <p>A képeket a <a href="https://nv-sana.mit.edu/">Sana 1.6B</a> model készítette.</p>
