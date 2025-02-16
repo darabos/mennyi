@@ -275,11 +275,9 @@ function lockerFor(kind) {
   }
 }
 
-const hasMouse = window.matchMedia('(any-hover: hover)').matches;
-
 function avatarContents(e) {
   const key = `${e.kind}-${e.name}`;
-  if (videos[key] !== undefined && hasMouse) {
+  if (videos[key] !== undefined) {
     return videos[key];
   } else if (e.kind == 'kutato') {
     return `<img src="images/space-animals-sana/${e.name}.jpeg" width="150" />`;
