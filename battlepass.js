@@ -353,7 +353,7 @@ function renderFloatOff(element, msg) {
   floater.style.top = `${rect.top + window.scrollY}px`;
   setTimeout(() => {
     floater.remove();
-  }, 1000);
+  }, 2000);
   return floater;
 }
 function floatOff(element, msg) {
@@ -369,7 +369,7 @@ function floatNext() {
   setTimeout(() => {
     floatQueue.shift();
     floatNext();
-  }, 500);
+  }, 1000);
 }
 
 function xpEvent(xp, msg) {
