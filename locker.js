@@ -93,8 +93,13 @@ function showLockerOptions(options, selected) {
   options.sort();
   lockeroptions.innerHTML = options
     .map(
-      choice => `<div class="avatar ${choice.name === selected ? 'selected' : ''}" data-choice="${choice.name}">
-      ${avatarContents(choice)}</div>`
+      choice => `
+      <div
+        tabindex="0"
+        class="avatar ${choice.name === selected ? 'selected' : ''}"
+        data-choice="${choice.name}">
+        ${avatarContents(choice)}
+      </div>`
     )
     .join('');
 }

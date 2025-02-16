@@ -255,6 +255,13 @@ function activateVideos() {
   document.querySelectorAll('video').forEach(vid => {
     vid.onmouseover = () => vid.play();
     vid.onmouseout = () => vid.pause();
+    let p = vid;
+    while (p.tabIndex === -1 || p.tagName === 'VIDEO') {
+      p = p.parentElement;
+      if (p === undefined) return;
+    }
+    p.onfocus = () => vid.play();
+    p.onblur = () => vid.pause();
   });
 }
 
