@@ -66,28 +66,6 @@ function showLocker() {
   }
   activateVideos();
 }
-const SZINEK = {
-  original: '#458 #fff',
-  snail: '#333 #fa0',
-  wolverine: '#322 #f43',
-  elphaba: '#222 #393',
-  barbie: '#fcf #faf',
-  snake: '#546 #90a',
-  banana: '#ffd #fd4',
-  silver: '#ddd #888',
-  polarity: '#35a #b48',
-  turtle: '#661 #7a4',
-  blush: '#a25 #c98',
-  punch: '#f76 #289',
-  rusty: '#665 #c56',
-  neon: '#f4a #6ff',
-  pokeball: '#e22 #eee',
-  icy: '#9ef #dff',
-  blossom: '#d8b #eac',
-  blues: '#79d #57b',
-  spring: '#ae8 #e9b',
-  faint: '#edc #fed',
-};
 
 function showLockerOptions(options, selected) {
   options.sort();
