@@ -110,6 +110,13 @@ function showBattlePass() {
       }
     };
   });
+  document.querySelectorAll('.avatar-holder:has(.text)').forEach(e => {
+    e.onfocus = () => {
+      const szin = e.querySelector('.text').dataset.szin;
+      applyColor(szin);
+    };
+    e.onblur = () => applyLockerSettings();
+  });
   activateVideos();
 }
 
@@ -147,7 +154,7 @@ function avatarContents(e) {
     return `<img src="images/furballs-sana/${e.name}.jpg" width="150" />`;
   } else if (e.kind == 'szin') {
     const [c1, c2] = SZINEK[e.name].split(' ');
-    return `<div class="text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)"></div>`;
+    return `<div data-szin="${e.name}" class="text" style="background: linear-gradient(135deg, ${c1} 50%, ${c2} 50%)"></div>`;
   }
 }
 

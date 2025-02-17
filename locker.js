@@ -91,7 +91,10 @@ function applyLockerSettings() {
   if (lockerData.selectedKedvenc !== 'none') {
     kedvenc.src = `images/furballs-sana/${lockerData.selectedKedvenc}.jpg`;
   }
-  const [c1, c2] = (SZINEK[lockerData.selectedSzinek] ?? SZINEK.original).split(' ');
+  applyColor(lockerData.selectedSzinek);
+}
+function applyColor(colorName) {
+  const [c1, c2] = (SZINEK[colorName] ?? SZINEK.original).split(' ');
   document.documentElement.style.cssText = `--border-color: ${c1}; --bg-color: ${c2}`;
 }
 applyLockerSettings();
